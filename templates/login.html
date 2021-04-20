@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Scheduler Login</title>
+        <link rel="stylesheet" type="text/css" href="/classProject/styles.css">
+        <link rel="shortcut icon" href="https://idp.uwm.edu/idp/images/favicon.ico">
+        <meta name="viewport" content="width=device-width">
+  	</head>
+  	
+  	<body>
+      <div class="page">
+            <div class="outer">
+                <div class="middle">
+                    <div class="inner">
+                        <idpui:servicedescription></idpui:servicedescription>
+                        <idpui:serviceinformationurl linktext="More Information" cssclass="class" cssid="id" cssstyle="style"><br>
+                        <idpui:serviceprivacyurl linktext="Service Provider Privacy Policy">
+                    <div class="content">
+                        <div class="form">
+                            <div class="uwmlogo">
+                                <img src="/classProject/UWM_Logo2.png" style="width: 100%; height: 80%;"></img>
+                            </div>
+            <form action="/classProject/dashboard.html" method="post">
+            <fieldset>
+                <legend>Authenticate</legend>
+                <label for="j_username">ePantherID<br><span class="noob"><a href="http://uwm.edu/iam/services/epantheraccount-services/what-is-your-epantherid/" target="_new">What is my ePantherID?</a></span></label>
+					<input class="input-text" name="j_username" type="text" id="j_username" value="" tabindex="1">
+			                <label for="j_password">Password</label>
+			                <input class="input-text" name="j_password" type="password" value="" tabindex="2">
+					<div class="login">
+				    	<button class="input-btn" type="submit" name="loginButton" tabindex="3">Login</button>
+                    <div class="clean"></div>
+                </div>
+            </fieldset>
+            </form>
+          </div>
+            </div>
+            </idpui:serviceprivacyurl></idpui:serviceinformationurl></div>
+        </div>
+        </div>
+        </div>
+          <div class="column two">
+            <ul class="list list-help">
+              <li class="list-help-item"><a href="#"><span class="item-marker">›</span> Forgot your password?</a></li>
+              <li class="list-help-item"><a href="#"><span class="item-marker">›</span> Need Help?</a></li>
+            </ul>
+          </div>
+<script type="text/javascript">
+ var login = document.getElementById("j_username");
+ if (login.value == "") { login.focus(); }
+ else{
+        var passwd=document.getElementById("j_password");
+        passwd.focus();
+     }
+</script>
+ 	
+<!-- idp04 -->
+
+</body></html>
