@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import MyUser
-from .database_lookup import DbLookup
-
+from .models import Employee
 
 
 # Create your views here.
@@ -14,18 +12,18 @@ class Home(View):
         noSuchUser = False
         badPassword = False
         try:
-            m = MyUser.objects.get(email=request.POST['email'])
-            badPassword = (m.password != request.POST['password'])
+            m = Employee.objects.get(EMP_EMAIL=request.POST['email'])
+            badPassword = (m.EMP_PASSWORD != request.POST['password'])
         except:
             noSuchUser = True
-        if noSuchUser:
+        if noSuchUser or badPassword:
             return render(request, "home.html", {"message": "Incorrect email/password"})
         else:
-            request.session["email"] = m.email
+            request.session["email"] = m.EMP_EMAIL
             return redirect("/dashboard/")
 
 
 class Dashboard(View):
     def get(self, request):
-        #m = request.session["email"]
+        m = request.session["email"]
         return render(request, "dashboard.html")
