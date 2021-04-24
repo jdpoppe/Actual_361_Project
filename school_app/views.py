@@ -28,5 +28,4 @@ class Assign(View):
         if request.POST['LabOrCourse']==0:
             #Update lab to hold instructor
             return redirect("AssignTA")
-        else
 
