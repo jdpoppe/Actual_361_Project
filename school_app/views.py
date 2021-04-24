@@ -3,7 +3,6 @@ from django.views import View
 from .models import Employee
 
 
-# Create your views here.
 class Home(View):
     def get(self, request):
         return render(request, "home.html", {})
@@ -26,4 +25,4 @@ class Home(View):
 class Dashboard(View):
     def get(self, request):
         m = request.session["email"]
-        return render(request, "dashboard.html")
+        return render(request, "dashboard.html", {"email": m})
