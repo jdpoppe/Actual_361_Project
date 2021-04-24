@@ -11,13 +11,17 @@ class Home(View):
         return render(request, "home.html", {})
 
     def post(self, request):
-
-        valid = DbLookup.email_lookup(request.POST['email'])
-
-        if not valid:
-            return render(request,"home.html",{"message":"Incorrect email/password"})
+        noSuchUser = False
+        badPassword = False
+        try:
+            m = MyUser.objects.get(email=request.POST['email'])
+            badPassword = (m.password != request.POST['password'])
+        except:
+            noSuchUser = True
+        if noSuchUser:
+            return render(request, "home.html", {"message": "Incorrect email/password"})
         else:
-            #request.session["email"] = m.email
+            request.session["email"] = m.email
             return redirect("/dashboard/")
 
 
