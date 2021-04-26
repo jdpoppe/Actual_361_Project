@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create account</title>
+</head>
+<body>
+<h1>Create account</h1>
+<form action="/createAccount/" method="post">
+    {% csrf_token %}
+    <table>
+        <tr><td>First Name: </td><td><input type="text" name="f_name" required></td></tr>
+        <tr><td>Middle Initial: </td><td><input type="text" name="initial"></td></tr>
+        <tr><td>Last Name: </td><td><input type="text" name="l_name" required></td></tr>
+        <tr><td>Role: </td><td><select name="role" required>
+            {% for i in roles %}
+        <option value="{{ i.0 }}">{{ i.1 }}</option>
+    {% endfor %}
+        </select></td></tr>
+        <tr><td>Email: </td><td><input type="text" name="email" required></td></tr>
+        <tr><td>Password for the account: </td><td><input type="password" name="password" required></td></tr>
+    </table>
+    <input type="submit" value="create account">
+</form>
+{{ message }}
+<h2>Existing accounts</h2>
+<table class="results">
+    <tr>
+        <th>First Name</th>
+        <th>Middle Initial</th>
+        <th>Last Name</th>
+        <th>Role</th>
+        <th>Email</th>
+    </tr>
+    {% for i in entries %}
+        <tr>
+            <td>{{i.0}}</td>
+            <td>{{i.1}}</td>
+            <td>{{i.2}}</td>
+            <td>{{i.3}}</td>
+            <td>{{i.4}}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
