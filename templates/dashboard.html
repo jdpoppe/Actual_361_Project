@@ -1,12 +1,16 @@
+{% load static %}
 <html>
     <head>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/templates/cdnStyle1.css">
-        <link rel="stylesheet" href="/templates/cdnStyle2.css">
-    </head>
+        {% csrf_token %}
+        <meta charset="utf-8">
+        <title>Scheduler Login</title>
+        <link rel="stylesheet" type="text/css" href="{%  static  'styles.css'  %}">
+        <link rel="stylesheet" href="{%  static  'cdnStyle1.css'  %}">
+        <link rel="stylesheet" href="{%  static  'cdnStyle2.css'  %}">
+        <link rel="shortcut icon" href="{%  static  'favicon.ico'  %}">
+        <meta name="viewport" content="width=device-width">
+  	</head>
     <body>
-        
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
     	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
     		<div class="flex-none w-56 px-2 flex items-center">
