@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Who gettin changed</title>
+</head>
+<body>
+<h1>Please choose an account to edit/delete</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+        <tr><td>Account email: </td><td><input type="text" name="email"></td></tr>
+    </table>
+
+    <label for="edOrDel">Edit or Delete?:</label>
+        {% csrf_token %}
+            <select name="edOrDel" id="edOrDel">
+                <option value="Edit">Edit</option>
+                <option value="Delete">Delete</option>
+            </select>
+  <br><br>
+
+    <input type="submit" value="enter">
+</form>
+</body>
+</html>

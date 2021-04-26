@@ -2,19 +2,18 @@ from django.db import models
 
 
 class EmployeeType(models.TextChoices):
-    Supervisor = 0
-    Instructor = 1
-    TA = 2
+    SUPE = "Supervisor"
+    INS = "Instructor"
+    TA = "TA"
 
 
 class Employee(models.Model):
-    ID = models.IntegerField(max_length=6, unique=True)
-    fName = models.CharField(max_length=25)
-    lName = models.CharField(max_length=25)
-    middleInitial = models.CharField(max_length=1)
-    email = models.charField(max_length=30)
-    department = models.charField(max_length=30)
-    type = models.IntegerField(max_length=1, choices=EmployeeType.choices)
+    EMP_ROLE = models.CharField(max_length=12, choices=EmployeeType.choices, default=EmployeeType.TA)
+    EMP_LNAME = models.CharField(max_length=25)
+    EMP_FNAME = models.CharField(max_length=25)
+    EMP_INITIAL = models.CharField(max_length=1)
+    EMP_EMAIL = models.EmailField(max_length=254)
+    EMP_PASSWORD = models.CharField(max_length=20)
 
 
 class Course(models.Model):
