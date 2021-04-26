@@ -27,7 +27,7 @@ class Dashboard(View):
 
 class CreateCourse(View):
     def get(self, request):
-        return render(request, "CreateCourse.html",{})
+        return render(request, "CreateCourse.html", {})
     def post(self, request):
         title = request.POST['title']
         credits = request.POST['credits']
@@ -74,7 +74,8 @@ class ChooseAcc(View):
 
 class EditAccount(View):
     def get(self, request):
-        return render(request, "editAccount.html", {})
+        m = request.session['accToEdit']
+        return render(request, "editAccount.html", {"m": m})
     def post(self, request):
         m = request.session['accToEdit']
         m.EMP_ROLE = request.POST['role']

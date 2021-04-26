@@ -21,12 +21,12 @@ class Course(models.Model):
     title = models.CharField(max_length=20)
     credits = models.IntegerField(max_length=1)
     location = models.CharField(max_length=10)
-    instructor = models.ForeignKey(Employee, on_delete=models.SET_Null, blank=True, null=True)
+    instructor = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Section(models.Model):
     ID = models.IntegerField(max_length=6, unique=True)
-    time = models.CharField()
+    time = models.DateTimeField()
     location = models.CharField(max_length=10)
     ta = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
