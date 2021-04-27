@@ -1,35 +1,45 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Employee, EmployeeType#, Course, Section
+from .models import Employee, EmployeeType
+from .Helpers import createSection, createCourse, assignInstructor, assignTA
 # Create your views here.
 
 class CreateCourse(View):
     def get(self, request):
-        return render(request, "CreateCourse.html",{})
+        return render(request, "createCourse.html", {})
+
     def post(self, request):
-        title = request.POST['title']
-        credits = request.POST['credits']
-        location = request.POST['location']
-        instructor = request.POST['instructor']
-        #id = len(list(Course.objects.all()))
-        #entries = list(Course.objects.filter(title=title))
-        #if len(entries)>0:
-            #render(request,"CreateCourse.html",{"message":"course already exists"})
-        #Course.objects.create(title=title, credits=credits, location=location,
-                             # instructor=Employee.objects.get(name=instructor), ID=id)
-        return redirect("/CreateCourse/")
+        print("IM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\n")
+        message = createCourse(request.POST['courseTitle'], request.POST['instructorEmail'])
+        print(message)
+        return render(request, "createCourse.html", {"message": message})
 
 
-
-class Assign(View):
+class CreateSection(View):
     def get(self,request):
-        return render(request, "AssignTA.html")
-    def post(self,request):
-        if request.POST['LabOrCourse']==0:
-            #Update lab to hold instructor
-            return redirect("AssignTA")
-        #else:
-            #Nothing
+        return render(request, "createSection.html", {})
+
+    def post(self, request):
+        message = createSection(request.POST['secTitle'], request.POST['taEmail'], request.POST['course'])
+        return render(request, "createSection.html", {"message": message})
+
+
+class AssignInstructor(View):
+    def get(self, request):
+        return render(request, "assignInstructor.html", {})
+
+    def post(self, request):
+        return render(request, "assignInstructor.html",
+                      {"message":assignInstructor(request.POST['email'], request.POST['course'])})
+
+class AssignTA(View):
+    def get(self, request):
+        return render(request, "assignTA.html",{})
+    def post(self, request):
+        return render(request, "assignTA.html",
+                      {"message":assignTA(request.POST['email'], request.POST['course'], request.POST['section'])})
+
+
 
 class Dashboard(View):
     def get(self, request):
@@ -67,12 +77,6 @@ class AssignCourse(View):
         return render(request, "assignCourse.html",{})
     def post(self, request):
         return render(request, "assignCourse.html",{})
-
-class CreateCourse(View):
-    def get(self, request):
-        return render(request, "createCourse.html", {})
-    def post(self, request):
-        return render(request, "createCourse.html", {})
 
 class Notifications(View):
     def get(self, request):
