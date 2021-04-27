@@ -42,3 +42,28 @@ class Login(View):
         return render(request, "login.html",{})
     def post(self, request):
         return redirect("login.html")
+
+class Account(View):
+    def get(self, request):
+        return render(request, "account.html", {})
+
+    def post(self, request):
+        return render(request, "account.html", {})
+
+class AssignCourse(View):
+    def get(self, request):
+        return render(request, "assignCourse.html",{})
+    def post(self, request):
+        return render(request, "assignCourse.html",{})
+
+class CreateCourse(View):
+    def get(self, request):
+        return render(request, "createCourse.html", {})
+    def post(self, request):
+        return render(request, "createCourse.html", {})
+
+class Notifications(View):
+    def get(self, request):
+        return render(request, "notifications.html", {})
+    def post(self, request):
+        return render(request, "notifications.html", {})
