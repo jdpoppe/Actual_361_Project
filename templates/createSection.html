@@ -1,6 +1,6 @@
 {% load static %}
 <html>
-      <head>
+    <head>
         {% csrf_token %}
         <meta charset="utf-8">
         <title>Scheduler Login</title>
@@ -12,11 +12,11 @@
         <link rel="stylesheet" href="{%  static  'svg-with-js.min.css'  %}">
         <link rel="stylesheet" href="{%  static  'all.css'  %}">
         <meta name="viewport" content="width=device-width">
-  	</head>
+    </head>
     <body>
         <center>
     	    <br><br>
-    	    <h1 class="font-bold text-2xl"  style="margin-left: 20px;">Create A Course</h1>
+    	    <h1 class="font-bold text-2xl" style="margin-left: 20px;">Create A Section</h1>
     	</center>
 
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
@@ -46,41 +46,38 @@
     	</div>
     </nav>
     <center>
-         <form action="/createCourse/" method="post">
+         <form method="post" action="/createSection/">
              {% csrf_token %}
              <table>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Name: </td><td><input type="text" name="courseTitle"></td></tr>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Instructor Email (Optional):</td><td><input type="text" name="instructorEmail"></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Section Title:</td><td><input type="text" name="secTitle"></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Title:</td><td><input type="text" name="course"></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">TA Email (Optional):</td><td><input type="text" name="taEmail"></td></tr>
              </table>
-             <input input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
+             <input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
          </form>
-        <p class="font-semibold">{{ message }}</p>
+         <p class="font-semibold">{{ message }}</p>
     </center>
     <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
     	<nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
     		<div class="h-full flex flex-col gap-2 p-2">
     			<div class="py-2 flex flex-col gap-1">
 
-                    <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createSection/">
+    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse/">
     					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Create Section</p>
+    					<p class="font-semibold">Create Courses</p>
     				</a>
-
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
+                    <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
     					<i class="fas fa-thumbtack text-sm w-8"></i>
     					<p class="font-semibold">Assign Instructors to Courses</p>
     				</a>
-
                     <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignTA/">
     					<i class="fas fa-thumbtack text-sm w-8"></i>
     					<p class="font-semibold">Assign TAs to Sections</p>
     				</a>
-
                     <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard/">
     					<i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
     					<p class="font-semibold">Home</p>
     				</a>
-
     			</div>
     		</div>
     	</nav>
