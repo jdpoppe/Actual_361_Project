@@ -19,29 +19,29 @@
                         <idpui:servicedescription></idpui:servicedescription>
                         <idpui:serviceinformationurl linktext="More Information" cssclass="class" cssid="id" cssstyle="style"><br>
                         <idpui:serviceprivacyurl linktext="Service Provider Privacy Policy">
-                    <div class="content">
-                        <div class="form">
-                            <div class="uwmlogo">
-                                <img src="{%  static  'UWM_Logo2.png'  %}" style="width: 100%; height: 80%;"></img>
-                            </div>
-            <form action="/dashboard" method="get">
-            <fieldset>
-                <legend>Authenticate</legend>
-                <label for="j_username">ePantherID<br><span class="noob"><a href="http://uwm.edu/iam/services/epantheraccount-services/what-is-your-epantherid/" target="_new">What is my ePantherID?</a></span></label>
-					<input class="input-text" name="j_username" type="text" id="j_username" value="" tabindex="1">
-			                <label for="j_password">Password</label>
-			                <input class="input-text" name="j_password" type="password" value="" tabindex="2">
-					<div class="login">
-				    	<button class="input-btn" type="submit" name="loginButton" tabindex="3">Login</button>
-                    <div class="clean"></div>
+                        <div class="content">
+                            <div class="form">
+                                <div class="uwmlogo">
+                                    <img src="{%  static  'UWM_Logo2.png'  %}" style="width: 100%; height: 80%;"></img>
+                                </div>
+                                    <form action="/dashboard" method="get">
+                                        <fieldset>
+                                            <legend>Authenticate</legend>
+                                            <label for="j_username">ePantherID<br><span class="noob"><a href="http://uwm.edu/iam/services/epantheraccount-services/what-is-your-epantherid/" target="_new">What is my ePantherID?</a></span></label>
+                                                <input class="input-text" name="j_username" type="text" id="j_username" value="" tabindex="1">
+                                            <label for="j_password">Password</label>
+                                                <input class="input-text" name="j_password" type="password" value="" tabindex="2">
+                                            <div class="login">
+                                                <button class="input-btn" type="submit" name="loginButton" tabindex="3">Login</button>
+                                            <div class="clean"></div>
+                                         </div>
+                                        </fieldset>
+                                    </form>
+                             </div>
+                        </div>
+                        </idpui:serviceprivacyurl></idpui:serviceinformationurl></div>
                 </div>
-            </fieldset>
-            </form>
-          </div>
             </div>
-            </idpui:serviceprivacyurl></idpui:serviceinformationurl></div>
-        </div>
-        </div>
         </div>
           <div class="column two">
             <ul class="list list-help">
@@ -52,12 +52,11 @@
 <script type="text/javascript">
  var login = document.getElementById("j_username");
  if (login.value == "") { login.focus(); }
- else{
-        var passwd=document.getElementById("j_password");
-        passwd.focus();
-     }
-</script>
- 	
-<!-- idp04 -->
-
-</body></html>
+ else
+ {
+    var passwd=document.getElementById("j_password");
+    passwd.focus();
+ }
+    </script>
+    </body>
+</html>

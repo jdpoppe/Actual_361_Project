@@ -1,16 +1,24 @@
+{% load static %}
 <html>
     <head>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/school_app/static/cdnStyle1.css">
-        <link rel="stylesheet" href="/school_app/static/cdnStyle2.css">
-    </head>
+        {% csrf_token %}
+        <meta charset="utf-8">
+        <title>Scheduler Login</title>
+        <link rel="stylesheet" type="text/css" href="{%  static  'styles.css'  %}">
+        <link rel="stylesheet" href="{%  static  'cdnStyle1.css'  %}">
+        <link rel="stylesheet" href="{%  static  'cdnStyle2.css'  %}">
+        <link rel="shortcut icon" href="{%  static  'favicon.ico'  %}">
+        <link rel="stylesheet" href="{%  static  'svg-with-js.css'  %}">
+        <link rel="stylesheet" href="{%  static  'svg-with-js.min.css'  %}">
+        <link rel="stylesheet" href="{%  static  'all.css'  %}">
+        <meta name="viewport" content="width=device-width">
+  	</head>
     <body>
         
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
     	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
     		<div class="flex-none w-56 px-2 flex items-center">
-    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/templates/dashboard.html">
+    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/dashboard">
     				<span class="w-9 h-9 rounded-full flex items-center justify-center bg-yellow-200">
     					<i class="fa fa-calendar" aria-hidden="true"></i>
     				</span>
@@ -21,11 +29,11 @@
     		</div>
     		<div class="flex-none flex w-40 px-2">
     			<div class="flex-grow flex items-center justify-end gap-2">
-    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/templates/notifications.html">
+    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/notifications">
     					<i class="fas fa-bell text-gray-900"></i>
     				</a>
     				<span class="relative" x-data="{dropdown:false}" x-cloak>
-    					<a class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out focus:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200 border border-white" x-on:click="dropdown=!dropdown" href="/classProject/account.html">
+    					<a class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out focus:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200 border border-white" x-on:click="dropdown=!dropdown" href="/account">
     						<i class="fas fa-user text-gray-900"></i>
     					</a>
     				</span>
@@ -40,15 +48,15 @@
     	<nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
     		<div class="h-full flex flex-col gap-2 p-2">
     			<div class="py-2 flex flex-col gap-1">
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/templates/dashboard.html">
+    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
     					<i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
     					<p class="font-semibold">Home</p>
     				</a>
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/templates/createCourse.html">
+    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse">
     					<i class="fas fa-plus-circle text-sm w-8"></i>
     					<p class="font-semibold">Create Courses</p>
     				</a>
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/templates/assignCourse.html">
+    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignCourse">
     					<i class="fas fa-thumbtack text-sm w-8"></i>
     					<p class="font-semibold">Assign Courses</p>
     				</a>
@@ -66,7 +74,7 @@
     					<span x-bind:class="{'absolute right-0 inset-y-0 w-1 bg-green-500': tab==='security'}"></span>
     					Account Settings
     				</button>
-    				<a type="button" class="text-left px-4 py-2 cursor-pointer focus:outline-none tracking-widest transition duration-200m ease-in-out relative" x-bind:class="{'bg-gray-100': tab!=='security'}" x-on:click="tab='logout'" href="/classProject/login.html">
+    				<a type="button" class="text-left px-4 py-2 cursor-pointer focus:outline-none tracking-widest transition duration-200m ease-in-out relative" x-bind:class="{'bg-gray-100': tab!=='security'}" x-on:click="tab='logout'" href="/login">
     					<span x-bind:class="{'absolute right-0 inset-y-0 w-1 bg-green-500': tab==='security'}"></span>
     					Logout
     				</a>
