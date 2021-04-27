@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-#from .models import #Employee#, Course, Section
+from .models import Employee, EmployeeType#, Course, Section
 # Create your views here.
 
 class CreateCourse(View):
@@ -40,8 +40,20 @@ class Dashboard(View):
 class Login(View):
     def get(self, request):
         return render(request, "login.html",{})
+
     def post(self, request):
-        return redirect("login.html")
+        noSuchUser = False
+        badPassword = False
+        try:
+            m = Employee.objects.get(EMP_EMAIL=request.POST['j_username'])
+            badPassword = (m.EMP_PASSWORD != request.POST['j_password'])
+        except:
+            noSuchUser = True
+        if noSuchUser or badPassword:
+            return render(request, "login.html", {"message": "Incorrect email/password"})
+        else:
+            request.session["email"] = m.EMP_EMAIL
+            return redirect("/dashboard/")
 
 class Account(View):
     def get(self, request):
@@ -67,3 +79,36 @@ class Notifications(View):
         return render(request, "notifications.html", {})
     def post(self, request):
         return render(request, "notifications.html", {})
+
+class CreateAccount(View):
+    def get(self, request):
+        m = request.session["email"]
+        allEmployee = list(Employee.objects.all())
+        formattedEntries = []
+        for i in allEmployee:
+            formattedEntries.append(
+                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
+        return render(request, "createAccount.html", {"entries": formattedEntries, "roles": EmployeeType.choices})
+
+    def post(self, request):
+        m = request.session["email"]
+        canAdd = False
+        message = ""
+        try:
+            m = Employee.objects.get(EMP_EMAIL=request.POST['email'])
+        except:
+            canAdd = True
+        if canAdd:
+            Employee.objects.create(EMP_ROLE=request.POST['role'], EMP_LNAME=request.POST['l_name'],
+                                    EMP_FNAME=request.POST['f_name'], EMP_INITIAL=request.POST['initial'],
+                                    EMP_EMAIL=request.POST['email'], EMP_PASSWORD=request.POST['password'])
+            message = "Account created"
+        else:
+            message = "Email is already exists"
+        allEmployee = list(Employee.objects.all())
+        formattedEntries = []
+        for i in allEmployee:
+            formattedEntries.append(
+                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
+        return render(request, "createAccount.html", {"entries": formattedEntries, "message": message,
+                                                      "roles": EmployeeType.choices})

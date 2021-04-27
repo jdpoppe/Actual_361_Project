@@ -24,7 +24,8 @@
                                 <div class="uwmlogo">
                                     <img src="{%  static  'UWM_Logo2.png'  %}" style="width: 100%; height: 80%;"></img>
                                 </div>
-                                    <form action="/dashboard" method="get">
+                                    <form action="/" method="post">
+                                        {% csrf_token %}
                                         <fieldset>
                                             <legend>Authenticate</legend>
                                             <label for="j_username">ePantherID<br><span class="noob"><a href="http://uwm.edu/iam/services/epantheraccount-services/what-is-your-epantherid/" target="_new">What is my ePantherID?</a></span></label>
