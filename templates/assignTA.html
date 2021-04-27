@@ -2,15 +2,19 @@
     <head>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/templates/cdnStyle1.css">
-        <link rel="stylesheet" href="/templates/cdnStyle2.css">
+        <link rel="stylesheet" href="/classProject/cdnStyle1.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     </head>
     <body>
-        
+        <center>
+    	    <br><br>
+    	    <h1 class="font-bold text-2xl" style="margin-left: 20px;">Assign a TA to a Section</h1>
+    	</center>
+
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
     	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
     		<div class="flex-none w-56 px-2 flex items-center">
-    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/templates/dashboard.html">
+    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/classProject/dashboard.html">
     				<span class="w-9 h-9 rounded-full flex items-center justify-center bg-yellow-200">
     					<i class="fa fa-calendar" aria-hidden="true"></i>
     				</span>
@@ -21,7 +25,7 @@
     		</div>
     		<div class="flex-none flex w-40 px-2">
     			<div class="flex-grow flex items-center justify-end gap-2">
-    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/templates/notifications.html">
+    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/classProject/notifications.html">
     					<i class="fas fa-bell text-gray-900"></i>
     				</a>
     				<span class="relative" x-data="{dropdown:false}" x-cloak>
@@ -33,27 +37,35 @@
     		</div>
     	</div>
     </nav>
-    
+
     <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
     	<nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
     		<div class="h-full flex flex-col gap-2 p-2">
     			<div class="py-2 flex flex-col gap-1">
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/templates/dashboard.html">
+    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/classProject/dashboard.html">
     					<i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
     					<p class="font-semibold">Home</p>
     				</a>
+
+                    <form method="post" action="/assignTA/">
+                        {% csrf_token %}
+                        <table>
+                            <tr><td>Section Title:</td><td><input type="text" name="section"></td></tr>
+                            <tr><td>Course Title:</td><td><input type="text" name="course"></td></tr>
+                            <tr><td>TA Email:</td><td><input type="text" name="email"></td></tr>
+                        </table>
+                        <input type="submit">
+                    </form>
+                        <p class="font-semibold">{{ message }}</p>
     				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse/">
-    					<i class="fas fa-plus-circle text-sm w-8"></i>
-    					<p class="font-semibold">Create Courses</p>
-    				</a>
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignCourse/">
     					<i class="fas fa-thumbtack text-sm w-8"></i>
     					<p class="font-semibold">Assign Courses</p>
+
     				</a>
     			</div>
     		</div>
     	</nav>
-    	
+
     </section>
 
     </body>

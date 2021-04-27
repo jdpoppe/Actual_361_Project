@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import MyUser, employee
+from .models import Employee, Course, Section
 
 # Register your models here.
-admin.site.register(MyUser)
-admin.site.register(employee)
+admin.site.register(Employee)
+admin.site.register(Course)
+admin.site.register(Section)
