@@ -80,6 +80,12 @@ class Notifications(View):
     def post(self, request):
         return render(request, "notifications.html", {})
 
+class ClassView(View):
+    def get(self, request):
+        return render(request, "classTemplate.html", {})
+    def post(self, request):
+        return render(request, "classTemplate.html", {})
+
 class CreateAccount(View):
     def get(self, request):
         m = request.session["email"]

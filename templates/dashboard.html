@@ -4,16 +4,24 @@
         {% csrf_token %}
         <meta charset="utf-8">
         <title>Scheduler Login</title>
-        <link rel="stylesheet" type="text/css" href="{%  static  'styles.css'  %}">
-        <link rel="stylesheet" href="{%  static  'cdnStyle1.css'  %}">
-        <link rel="stylesheet" href="{%  static  'cdnStyle2.css'  %}">
-        <link rel="shortcut icon" href="{%  static  'favicon.ico'  %}">
-        <link rel="stylesheet" href="{%  static  'svg-with-js.css'  %}">
-        <link rel="stylesheet" href="{%  static  'svg-with-js.min.css'  %}">
-        <link rel="stylesheet" href="{%  static  'all.css'  %}">
+            <link rel="stylesheet" type="text/css" href="{%  static  'styles.css'  %}">
+            <link rel="stylesheet" href="{%  static  'cdnStyle1.css'  %}">
+            <link rel="stylesheet" href="{%  static  'cdnStyle2.css'  %}">
+            <link rel="shortcut icon" href="{%  static  'favicon.ico'  %}">
+            <link rel="stylesheet" href="{%  static  'svg-with-js.css'  %}">
+            <link rel="stylesheet" href="{%  static  'svg-with-js.min.css'  %}">
+            <link rel="stylesheet" href="{%  static  'all.css'  %}">
+            <link rel="stylesheet" href="{%  static  'all.min.css'  %}">
+            <link rel="stylesheet" href="{%  static  'fa-solid-900.ttf'  %}">
+            <link rel="stylesheet" href="{%  static  'fa-solid-900.woff'  %}">
+            <link rel="stylesheet" href="{%  static  'fa-solid-900.woff2'  %}">
+            <link rel="stylesheet" href="{%  static  'coolButton.css'  %}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <meta name="viewport" content="width=device-width">
   	</head>
     <body>
+    <i class="fa fa-heart"></i>
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
     	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
     		<div class="flex-none w-56 px-2 flex items-center">
@@ -64,6 +72,27 @@
     			</div>
     		</div>
     	</nav>
+
+
+        <center>
+        <h1 style="font-size: 50px;">My Courses</h1>
+            <table id="classes" name="classes" class="classTable">
+            <th></th>
+                <tr>
+                    <td><button class="coolButton"><a href="/class1"><span>Class 1 </span></a></button></td>
+                    <td><button class="coolButton"><span>Class 2 </span></button></td>
+                    <td><button class="coolButton"><span>Class 3 </span></button></td>
+                </tr>
+                <tr><br></tr>
+                <tr>
+                    <td><button class="coolButton"><span>Class 4 </span></button></td>
+                    <td><button class="coolButton"><span>Class 5 </span></button></td>
+                    <td><button class="coolButton"><span>Class 6 </span></button></td>
+                </tr>
+
+
+            </table>
+        </center>
 
     </section>
 
