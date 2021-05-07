@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Employee, EmployeeType
+from .models import Employee, EmployeeType, Course, Section
 from .Helpers import createSection, createCourse, assignInstructor, assignTA
+import smtplib
 # Create your views here.
 
 class CreateCourse(View):
@@ -14,7 +15,6 @@ class CreateCourse(View):
         print(message)
         return render(request, "createCourse.html", {"message": message})
 
-
 class CreateSection(View):
     def get(self,request):
         return render(request, "createSection.html", {})
@@ -23,10 +23,13 @@ class CreateSection(View):
         message = createSection(request.POST['secTitle'], request.POST['taEmail'], request.POST['course'])
         return render(request, "createSection.html", {"message": message})
 
-
 class AssignInstructor(View):
     def get(self, request):
-        return render(request, "assignInstructor.html", {})
+        c=list(Course.objects.all())
+        courses = list()
+        for i in c:
+            courses.append((i.title, i.instructor))
+        return render(request, "assignInstructor.html", {"courses": courses})
 
     def post(self, request):
         return render(request, "assignInstructor.html",
@@ -34,12 +37,21 @@ class AssignInstructor(View):
 
 class AssignTA(View):
     def get(self, request):
-        return render(request, "assignTA.html",{})
+        c=list(Course.objects.all())
+        courses = list()
+        for i in c:
+            courses.append(i.title)
+
+        #Look for sections in other table
+        s = list(Section.objects.all())
+        sections = list()
+        for j in s:
+            sections.append((j.title, j.ta, j.course, j.courseTitle))
+
+        return render(request, "assignTA.html",{"courses": courses,"sections":sections})
     def post(self, request):
         return render(request, "assignTA.html",
                       {"message":assignTA(request.POST['email'], request.POST['course'], request.POST['section'])})
-
-
 
 class Dashboard(View):
     def get(self, request):
@@ -83,6 +95,12 @@ class Notifications(View):
         return render(request, "notifications.html", {})
     def post(self, request):
         return render(request, "notifications.html", {})
+
+class ClassView(View):
+    def get(self, request):
+        return render(request, "classTemplate.html", {})
+    def post(self, request):
+        return render(request, "classTemplate.html", {})
 
 class CreateAccount(View):
     def get(self, request):
