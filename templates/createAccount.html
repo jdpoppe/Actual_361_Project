@@ -1,43 +1,114 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>create account</title>
-        <head>
+<html>
+      <head>
+          <style>
+                li>ul                 { transform: translatex(100%) scale(0) }
+                li:hover>ul           { transform: translatex(101%) scale(1) }
+                li > button svg       { transform: rotate(-90deg) }
+                li:hover > button svg { transform: rotate(-270deg) }
+
+                .group:hover .group-hover\:scale-100 { transform: scale(1) }
+                .group:hover .group-hover\:-rotate-180 { transform: rotate(180deg) }
+                .scale-0 { transform: scale(0) }
+          </style>
         {% csrf_token %}
         <meta charset="utf-8">
         <title>Scheduler Login</title>
-        <link rel="stylesheet" type="text/css" href="{%  static  'styles.css'  %}">
-        <link rel="stylesheet" href="{%  static  'cdnStyle1.css'  %}">
-        <link rel="stylesheet" href="{%  static  'cdnStyle2.css'  %}">
-        <link rel="shortcut icon" href="{%  static  'favicon.ico'  %}">
-        <link rel="stylesheet" href="{%  static  'svg-with-js.css'  %}">
-        <link rel="stylesheet" href="{%  static  'svg-with-js.min.css'  %}">
-        <link rel="stylesheet" href="{%  static  'all.css'  %}">
+            <link rel="stylesheet" type="text/css" href="{%  static  'styles.css'  %}">
+            <link rel="stylesheet" href="{%  static  'cdnStyle1.css'  %}">
+            <link rel="stylesheet" href="{%  static  'cdnStyle2.css'  %}">
+            <link rel="shortcut icon" href="{%  static  'favicon.ico'  %}">
+            <link rel="stylesheet" href="{%  static  'svg-with-js.css'  %}">
+            <link rel="stylesheet" href="{%  static  'svg-with-js.min.css'  %}">
+            <link rel="stylesheet" href="{%  static  'all.css'  %}">
+            <link rel="stylesheet" href="{%  static  'all.min.css'  %}">
+            <link rel="stylesheet" href="{%  static  'fa-solid-900.ttf'  %}">
+            <link rel="stylesheet" href="{%  static  'fa-solid-900.woff'  %}">
+            <link rel="stylesheet" href="{%  static  'fa-solid-900.woff2'  %}">
+            <link rel="stylesheet" href="{%  static  'coolButton.css'  %}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <meta name="viewport" content="width=device-width">
   	</head>
-</head>
-<body>
-<h1>Create account</h1>
-<form action="/createAccount/" method="post">
-    {% csrf_token %}
-    <table>
-        <tr><td>First Name: </td><td><input type="text" name="f_name" required></td></tr>
-        <tr><td>Middle Initial: </td><td><input type="text" name="initial"></td></tr>
-        <tr><td>Last Name: </td><td><input type="text" name="l_name" required></td></tr>
-        <tr><td>Role: </td><td><select name="role" required>
-            {% for i in roles %}
+    <body>
+    <i class="fa fa-heart"></i>
+    <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
+    	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
+    		<div class="flex-none w-56 px-2 flex items-center">
+    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/dashboard">
+    				<span class="w-9 h-9 rounded-full flex items-center justify-center bg-yellow-200">
+    					<i class="fa fa-calendar" aria-hidden="true"></i>
+    				</span>
+    				TA Scheduler
+    			</a>
+    		</div>
+    		<div class="flex-grow flex items-center px-2">
+    		</div>
+    		<div class="flex-none flex w-40 px-2">
+    			<div class="flex-grow flex items-center justify-end gap-2">
+    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/notifications">
+    					<i class="fas fa-bell text-gray-900"></i>
+    				</a>
+    				<span class="relative" x-data="{dropdown:false}" x-cloak>
+    					<a class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out focus:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200 border border-white" x-on:click="dropdown=!dropdown" href="/account">
+    						<i class="fas fa-user text-gray-900"></i>
+    					</a>
+    				</span>
+    			</div>
+    		</div>
+    	</div>
+    </nav>
+
+        <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
+            <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
+                <div class="h-full flex flex-col gap-2 p-2">
+                    <div class="py-2 flex flex-col gap-1">
+
+                        <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createSection/">
+                            <i class="fas fa-thumbtack text-sm w-8"></i>
+                            <p class="font-semibold">Create Section</p>
+                        </a>
+
+                        <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
+                            <i class="fas fa-thumbtack text-sm w-8"></i>
+                            <p class="font-semibold">Assign Instructors to Courses</p>
+                        </a>
+
+                        <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignTA/">
+                            <i class="fas fa-thumbtack text-sm w-8"></i>
+                            <p class="font-semibold">Assign TAs to Sections</p>
+                        </a>
+
+                        <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard/">
+                            <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
+                            <p class="font-semibold">Home</p>
+                        </a>
+
+                    </div>
+                </div>
+            </nav>
+
+
+    <center>
+         <form action="/createAccount/" method="post">
+             {% csrf_token %}
+             <table>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">First Name: </td><td><input type="text" name="f_name" required></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Middle Initial: </td><td><input type="text" name="initial"></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Last Name: </td><td><input type="text" name="l_name" required></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Role: </td><td><select name="role" required></select></td></tr>
+                 {% for i in roles %}
         <option value="{{ i.0 }}">{{ i.1 }}</option>
     {% endfor %}
         </select></td></tr>
-        <tr><td>Email: </td><td><input type="text" name="email" required></td></tr>
-        <tr><td>Password for the account: </td><td><input type="password" name="password" required></td></tr>
-    </table>
-    <input type="submit" value="create account">
-</form>
-{{ message }}
-<h2>Existing accounts</h2>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Email: </td><td><input type="text" name="email" required></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Password for the account: </td><td><input type="password" name="password" required></td></tr>
+             </table>
+
+             <input input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit" value="create account">
+         </form>
+        <p class="font-semibold">{{ message }}</p>
+    <h2>Existing accounts</h2>
 <table class="results">
     <tr>
         <th>First Name</th>
@@ -56,5 +127,52 @@
         </tr>
     {% endfor %}
 </table>
-</body>
+
+              <br><br><br>
+              <table>
+                 <tr>
+                     <td><label class="font-semibold text-xs">First Name: <span class="text-gray-400" style="font-size:10px"></span></label></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                 </tr>
+                 <tr>
+                     <td><label class="font-semibold text-xs">Middle Initial: <span class="text-gray-400" style="font-size:10px"></span></label></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                 </tr>
+                 <tr>
+                     <td><label class="font-semibold text-xs">Last Name: <span class="text-gray-400" style="font-size:10px"></span></label></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                 </tr>
+                 <tr>
+                     <td><label class="font-semibold text-xs">Role: <span class="text-gray-400" style="font-size:10px"></span></label></td>
+                     <td>
+                        <div class="group inline-block" style="width: 100%">
+                          <button class="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center" style="width: 100%">
+                            <span class="pr-1 font-semibold flex-1"></span>
+                            <span>
+                              <svg class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                              </svg>
+                            </span>
+                          </button>
+                          <ul class="bg-white border rounded-sm transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top" style="min-width: 10%">
+                            <li class="rounded-sm px-3 py-1 hover:bg-gray-100">Supervisor</li>
+                            <li class="rounded-sm px-3 py-1 hover:bg-gray-100">Instructor</li>
+                            <li class="rounded-sm px-3 py-1 hover:bg-gray-100">TA</li>
+                          </ul>
+                        </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><label class="font-semibold text-xs">Email: <span class="text-gray-400" style="font-size:10px"></span></label></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                 </tr>
+                 <tr>
+                     <td><label class="font-semibold text-xs">Password: <span class="text-gray-400" style="font-size:10px"></span></label></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                 </tr>
+            </table>
+            <td><input input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit" value="Create Account"></td>
+    </center>
+        </section>
+    </body>
 </html>
