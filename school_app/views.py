@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Employee, EmployeeType
+from .models import Employee, EmployeeType, Course, Section
 from .Helpers import createSection, createCourse, assignInstructor, assignTA
+import smtplib
 # Create your views here.
 
 class CreateCourse(View):
@@ -24,7 +25,11 @@ class CreateSection(View):
 
 class AssignInstructor(View):
     def get(self, request):
-        return render(request, "assignInstructor.html", {})
+        c=list(Course.objects.all())
+        courses = list()
+        for i in c:
+            courses.append((i.title, i.instructor))
+        return render(request, "assignInstructor.html", {"courses": courses})
 
     def post(self, request):
         return render(request, "assignInstructor.html",
@@ -32,7 +37,18 @@ class AssignInstructor(View):
 
 class AssignTA(View):
     def get(self, request):
-        return render(request, "assignTA.html",{})
+        c=list(Course.objects.all())
+        courses = list()
+        for i in c:
+            courses.append(i.title)
+
+        #Look for sections in other table
+        s = list(Section.objects.all())
+        sections = list()
+        for j in s:
+            sections.append((j.title, j.ta, j.course, j.courseTitle))
+
+        return render(request, "assignTA.html",{"courses": courses,"sections":sections})
     def post(self, request):
         return render(request, "assignTA.html",
                       {"message":assignTA(request.POST['email'], request.POST['course'], request.POST['section'])})
