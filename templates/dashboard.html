@@ -20,81 +20,171 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <meta name="viewport" content="width=device-width">
   	</head>
+
     <body>
-    <i class="fa fa-heart"></i>
-    <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
-    	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
-    		<div class="flex-none w-56 px-2 flex items-center">
-    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/dashboard">
-    				<span class="w-9 h-9 rounded-full flex items-center justify-center bg-yellow-200">
-    					<i class="fa fa-calendar" aria-hidden="true"></i>
-    				</span>
-    				TA Scheduler
-    			</a>
-    		</div>
-    		<div class="flex-grow flex items-center px-2">
-    		</div>
-    		<div class="flex-none flex w-40 px-2">
-    			<div class="flex-grow flex items-center justify-end gap-2">
-    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/notifications">
-    					<i class="fas fa-bell text-gray-900"></i>
-    				</a>
-    				<span class="relative" x-data="{dropdown:false}" x-cloak>
-    					<a class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out focus:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200 border border-white" x-on:click="dropdown=!dropdown" href="/account">
-    						<i class="fas fa-user text-gray-900"></i>
-    					</a>
-    				</span>
-    			</div>
-    		</div>
-    	</div>
-    </nav>
-    
-    <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
-    	<nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
-    		<div class="h-full flex flex-col gap-2 p-2">
-    			<div class="py-2 flex flex-col gap-1">
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
-    					<i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
-    					<p class="font-semibold">Home</p>
-    				</a>
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse">
-    					<i class="fas fa-plus-circle text-sm w-8"></i>
-    					<p class="font-semibold">Create Courses</p>
-    				</a>
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
-    					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Assign Courses</p>
-    				</a>
-                     <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createAccount/">
-    					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Create Account</p>
-    				</a>
-    			</div>
-    		</div>
-    	</nav>
+
+        <i class="fa fa-heart"></i>
+        <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
+            <div class="h-full bg-white flex w-full max-w-6xl mx-auto">
+                <div class="flex-none w-56 px-2 flex items-center">
+                    <a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/dashboard">
+                        <span class="w-9 h-9 rounded-full flex items-center justify-center bg-yellow-200">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
+                        TA Scheduler
+                    </a>
+                </div>
+                <div class="flex-grow flex items-center px-2">
+                </div>
+                <div class="flex-none flex w-40 px-2">
+                    <div class="flex-grow flex items-center justify-end gap-2">
+                        <a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/notifications">
+                            <i class="fas fa-bell text-gray-900"></i>
+                        </a>
+                        <span class="relative" x-data="{dropdown:false}" x-cloak>
+                            <a class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out focus:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200 border border-white" x-on:click="dropdown=!dropdown" href="/account">
+                                <i class="fas fa-user text-gray-900"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
 
-        <center>
-        <h1 style="font-size: 50px;">My Courses</h1>
-            <table id="classes" name="classes" class="classTable">
-            <th></th>
-                <tr>
-                    <td><button class="coolButton"><a href="/class1"><span>Class 1 </span></a></button></td>
-                    <td><button class="coolButton"><span>Class 2 </span></button></td>
-                    <td><button class="coolButton"><span>Class 3 </span></button></td>
-                </tr>
-                <tr><br></tr>
-                <tr>
-                    <td><button class="coolButton"><span>Class 4 </span></button></td>
-                    <td><button class="coolButton"><span>Class 5 </span></button></td>
-                    <td><button class="coolButton"><span>Class 6 </span></button></td>
-                </tr>
+
+        {% if user == "Supervisor" %}
+            <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
+                <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
+                    <div class="h-full flex flex-col gap-2 p-2">
+                        <div class="py-2 flex flex-col gap-1">
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
+                                <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
+                                <p class="font-semibold">Home</p>
+                            </a>
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse">
+                                <i class="fas fa-plus-circle text-sm w-8"></i>
+                                <p class="font-semibold">Create Courses</p>
+                            </a>
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
+                                <i class="fas fa-thumbtack text-sm w-8"></i>
+                                <p class="font-semibold">Assign Courses</p>
+                            </a>
+                             <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createAccount/">
+                                <i class="fas fa-thumbtack text-sm w-8"></i>
+                                <p class="font-semibold">Create Account</p>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
 
 
-            </table>
-        </center>
+                <center>
+                <h1 style="font-size: 50px;">Welcome, Supervisor</h1>
+                    <table id="classes" name="classes" class="classTable">
+                    <th></th>
+                        <tr>
+                            <td><button class="coolButton"><a href="/View Users"><span>View Users </span></a></button></td>
+                            <td><button class="coolButton"><a href="/View Users"><span>View Courses </span></a></button></td>
+                            <td><button class="coolButton"><a href="/View Users"><span>Send Notifications </span></a></button></td>
+                        </tr>
+                    </table>
 
-    </section>
+                </center>
 
+            </section>
+        {% endif %}
+
+
+
+        {% if user == "Instructor" %}
+            <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
+                <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
+                    <div class="h-full flex flex-col gap-2 p-2">
+                        <div class="py-2 flex flex-col gap-1">
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
+                                <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
+                                <p class="font-semibold">Home</p>
+                            </a>
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse">
+                                <i class="fas fa-plus-circle text-sm w-8"></i>
+                                <p class="font-semibold">Assign TAs to Lab</p>
+                            </a>
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
+                                <i class="fas fa-thumbtack text-sm w-8"></i>
+                                <p class="font-semibold">Edit Contact Info</p>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
+
+                <center>
+                <h1 style="font-size: 50px;">Welcome, Instructor</h1>
+                    <table id="classes" name="classes" class="classTable">
+                    <th></th>
+                        <tr>
+                            <td><button class="coolButton"><a href="/View Users"><span>View Course Assignments </span></a></button></td>
+                            <td><br></td>
+                            <td><button class="coolButton"><a href="/View Users"><span>View TA Assignments </span></a></button></td>
+                        </tr>
+                        <tr>
+                            <td><br></td>
+                        </tr>
+                        <tr>
+                            <td><button class="coolButton"><a href="/View Users"><span>View Public Contact Info </span></a></button></td>
+                            <td><br></td>
+                            <td><button class="coolButton"><a href="/View Users"><span>Send Notification </span></a></button></td>
+                        </tr>
+                    </table>
+
+                </center>
+
+            </section>
+        {% endif %}
+
+        {% if user == "TA" %}
+            <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
+                <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
+                    <div class="h-full flex flex-col gap-2 p-2">
+                        <div class="py-2 flex flex-col gap-1">
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
+                                <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
+                                <p class="font-semibold">Home</p>
+                            </a>
+                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse">
+                                <i class="fas fa-plus-circle text-sm w-8"></i>
+                                <p class="font-semibold">Edit Contact Info</p>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
+
+                <center>
+                <h1 style="font-size: 50px;">Welcome, TA</h1>
+                    <table id="classes" name="classes" class="classTable">
+                    <th></th>
+                        <tr>
+                            <td><button class="coolButton"><a href="/View Users"><span>View TA assignments</span></a></button></td>
+                            <td><br></td>
+                            <td><button class="coolButton"><a href="/View Users"><span>Read Public Contact Info</span></a></button></td>
+                        </tr>
+                    </table>
+
+                </center>
+
+            </section>
+        {% endif %}
+
+        {% if user == "Hacker" %}
+            <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
+
+                <center>
+                <h1 style="font-size: 50px;">You shouldn't be here</h1>
+                </center>
+
+            </section>
+        {% endif %}
     </body>
 </html>

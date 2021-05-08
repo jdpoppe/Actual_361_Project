@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import Employee, EmployeeType
 from .Helpers import createSection, createCourse, assignInstructor, assignTA
+
+
 # Create your views here.
 
 class CreateCourse(View):
@@ -9,18 +11,19 @@ class CreateCourse(View):
         return render(request, "createCourse.html", {})
 
     def post(self, request):
-        print("IM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\n")
         message = createCourse(request.POST['courseTitle'], request.POST['instructorEmail'])
         print(message)
         return render(request, "createCourse.html", {"message": message})
 
+
 class CreateSection(View):
-    def get(self,request):
+    def get(self, request):
         return render(request, "createSection.html", {})
 
     def post(self, request):
         message = createSection(request.POST['secTitle'], request.POST['taEmail'], request.POST['course'])
         return render(request, "createSection.html", {"message": message})
+
 
 class AssignInstructor(View):
     def get(self, request):
@@ -28,26 +31,35 @@ class AssignInstructor(View):
 
     def post(self, request):
         return render(request, "assignInstructor.html",
-                      {"message":assignInstructor(request.POST['email'], request.POST['course'])})
+                      {"message": assignInstructor(request.POST['email'], request.POST['course'])})
+
 
 class AssignTA(View):
     def get(self, request):
-        return render(request, "assignTA.html",{})
+        return render(request, "assignTA.html", {})
+
     def post(self, request):
         return render(request, "assignTA.html",
-                      {"message":assignTA(request.POST['email'], request.POST['course'], request.POST['section'])})
+                      {"message": assignTA(request.POST['email'], request.POST['course'], request.POST['section'])})
+
 
 class Dashboard(View):
     def get(self, request):
-        return render(request, "dashboard.html",{})
+        print(request.session["type"])
+        return render(request, "dashboard.html", {"user": request.session["type"]})
+
     def post(self, request):
-        return render(request, "dashboard.html",{})
+        return render(request, "dashboard.html", {"user": request.session["type"]})
+
 
 class Login(View):
     def get(self, request):
-        return render(request, "login.html",{})
+        request.session["type"] = "Hacker"
+        request.session.save()
+        return render(request, "login.html", {})
 
     def post(self, request):
+        request.session["type"] = "Hacker"
         noSuchUser = False
         badPassword = False
         try:
@@ -59,7 +71,9 @@ class Login(View):
             return render(request, "login.html", {"message": "Incorrect email/password"})
         else:
             request.session["email"] = m.EMP_EMAIL
+            request.session["type"] = m.EMP_ROLE
             return redirect("/dashboard/")
+
 
 class Account(View):
     def get(self, request):
@@ -68,23 +82,30 @@ class Account(View):
     def post(self, request):
         return render(request, "account.html", {})
 
+
 class AssignCourse(View):
     def get(self, request):
-        return render(request, "assignCourse.html",{})
+        return render(request, "assignCourse.html", {})
+
     def post(self, request):
-        return render(request, "assignCourse.html",{})
+        return render(request, "assignCourse.html", {})
+
 
 class Notifications(View):
     def get(self, request):
         return render(request, "notifications.html", {})
+
     def post(self, request):
         return render(request, "notifications.html", {})
+
 
 class ClassView(View):
     def get(self, request):
         return render(request, "classTemplate.html", {})
+
     def post(self, request):
         return render(request, "classTemplate.html", {})
+
 
 class CreateAccount(View):
     def get(self, request):

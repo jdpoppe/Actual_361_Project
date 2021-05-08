@@ -48,11 +48,6 @@ class TestCreateSection(unittest.TestCase):
                          msg="Entering an employee that is not a TA for a section fails to return message "
                              "\"TA does not exist, or employee is not TA\"")
 
-    def test_sectionExists(self):
-        self.assertEqual("Section already exists", createSection("Lab 801", "bertkreischer@uwm.edu", "Comedy 251"),
-                         msg="Entering a section that already exists fails to return message, "
-                             "\"Section already exists\"")
-
     def test_validInput(self):
         self.assertEqual("Section successfully added",
                          createSection("Lab 807", "bertkreischer@uwm.edu", "Comedy 251"),

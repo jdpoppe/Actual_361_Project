@@ -2,8 +2,6 @@ import unittest
 
 import os
 
-from docutils.parsers import null
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
 django.setup()
@@ -53,6 +51,8 @@ class TestAssignTA(unittest.TestCase):
                          msg="Entering valid inputs with no previous ta assigned to the section fails to return "
                              "\"TA successfully assigned to section\"")
 
+    # If this test, or any other test in test_assign_ta, doesn't work, clear out the data base by going to admin page
+    # and clearing out all previous entries. It will not run correctly if there are duplicate entries in the database
     def test_allExistPrev(self):
         self.assertEqual("TA successfully assigned to section",
                          assignTA("bertkreischer@uwm.edu", "Comedy 251", "Lab 801"),
