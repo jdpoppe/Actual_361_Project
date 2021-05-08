@@ -28,5 +28,7 @@ urlpatterns = [
     path('assignInstructor/', AssignInstructor.as_view()),
     path('assignTA/', AssignTA.as_view()),
     path('createAccount/', CreateAccount.as_view()),
-    path('class1/', ClassView.as_view())
+    path('class1/', ClassView.as_view()),
+    #new
+    path('publicContactInfo/', ClassView.as_view())
 ]
