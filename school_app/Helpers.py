@@ -51,9 +51,10 @@ def assignInstructor(instructor, course):
     return "Instructor successfully assigned to course"
 
 
-returnMessageAssignTA = {0:"TA does not exist, or employee is not a TA",
-                         1:"Course does not exist, or Instructor does not teach course",
-                         2:"Section does not exist"}
+returnMessageAssignTA = {0: "TA does not exist, or employee is not a TA",
+                         1: "Course does not exist, or Instructor does not teach course",
+                         2: "Section does not exist"}
+
 
 def assignTA(TA, course, section, instructor):
     if TA == "":
@@ -61,10 +62,10 @@ def assignTA(TA, course, section, instructor):
     x = 0
     try:
         taObj = Employee.objects.get(EMP_EMAIL=TA, EMP_ROLE="TA")
-        x = x+1
+        x = x + 1
         instructorObj = Employee.objects.get(EMP_EMAIL=instructor, EMP_ROLE="Instructor")
         courseObj = Course.objects.get(title=course, instructor=instructorObj)
-        x = x+1
+        x = x + 1
         sectionObj = Section.objects.get(title=section, course=courseObj)
     except:
         return returnMessageAssignTA[x]
@@ -73,6 +74,34 @@ def assignTA(TA, course, section, instructor):
     sectionObj.save()
     return "TA successfully assigned to section"
 
-def assignTAToSection(user, instructor, title, courser):
-    pass
 
+returnMessageAssignEmployee = {0: "Course does not exist",
+                               1: "Section does not exist",
+                               2: "Employee does not exist",
+                               3: "You cannot assign a supervisor to a section",
+                               4: "Employee successfully assigned to section",
+                               5: "Course has different Instructor assigned to it, "
+                                  "cannot assign new instructor to section"}
+
+
+def assignEmployeeToSection(employee, section, course):
+    x = 0
+    try:
+        courseObj = Course.objects.get(title=course)
+        x = x + 1
+        sectionObj = Section.objects.get(title=section, course=courseObj)
+        x = x + 1
+        employeeObj = Employee.objects.get(EMP_EMAIL=employee)
+        x = x + 1
+    except:
+        return returnMessageAssignEmployee[x]
+    if employeeObj.EMP_ROLE == "Supervisor":
+        return returnMessageAssignEmployee[x]
+    if (employeeObj.EMP_ROLE == "Instructor") & (courseObj.instructor == None):
+        courseObj.instructor = employeeObj
+        courseObj.save()
+    elif (courseObj.instructor != employeeObj) & (employeeObj.EMP_ROLE == "Instructor"):
+        return returnMessageAssignEmployee[x + 2]
+    sectionObj.emp = employeeObj
+    sectionObj.save()
+    return returnMessageAssignEmployee[x + 1]

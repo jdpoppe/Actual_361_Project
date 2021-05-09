@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import Employee, EmployeeType, Course
-from .Helpers import createSection, createCourse, assignInstructor, assignTA
+from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection
 
 
 # Create your views here.
@@ -56,6 +56,25 @@ class InstructorAssignTA(View):
         return render(request, "instructorAssignTA.html",
                       {"message": assignTA(request.POST['email'], request.POST['course'], request.POST['section'],
                                            request.session["email"]), "courses": courses})
+
+
+class AssignEmployee(View):
+    def get(self, request):
+        c = Course.objects.all()
+        courses = list()
+        for i in c:
+            courses.append((i.title))
+        return render(request, "assignTA.html", {"courses": courses})
+
+    def post(self, request):
+        c = Course.objects.all()
+        courses = list()
+        for i in c:
+            courses.append((i.title))
+        return render(request, "assignTA.html", {"message": assignEmployeeToSection(request.POST["email"],
+                                                                             request.POST["section"],
+                                                                             request.POST["course"]),
+                                                 "courses": courses})
 
 
 class Dashboard(View):

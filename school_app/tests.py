@@ -134,3 +134,4 @@ class ProperDashboard(TestCase):
         response = self.client.get("/dashboard/")
         self.assertEqual(response.context["user"], "Supervisor", msg="Successfully logging in as Supervisor fails to "
                                                                      "display Supervisor dashboard")
+
