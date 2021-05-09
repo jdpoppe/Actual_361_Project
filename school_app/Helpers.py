@@ -32,9 +32,9 @@ def createSection(title, ta, course):
     courseObj = list(Course.objects.filter(title=course))
     if len(courseObj) < 1:
         return "Course does not exist"
-    if (len(Section.objects.filter(title=title, courseTitle=title))) > 0:
+    if (len(Section.objects.filter(title=title))) > 0:
         return "Section already exists"
-    Section.objects.create(title=title, ta=taObj[0], course=courseObj[0], courseTitle=title)
+    Section.objects.create(title=title, ta=taObj[0], course=courseObj[0])
     return "Section successfully added"
 
 
@@ -51,18 +51,28 @@ def assignInstructor(instructor, course):
     return "Instructor successfully assigned to course"
 
 
-def assignTA(TA, course, section):
+returnMessageAssignTA = {0:"TA does not exist, or employee is not a TA",
+                         1:"Course does not exist, or Instructor does not teach course",
+                         2:"Section does not exist"}
+
+def assignTA(TA, course, section, instructor):
     if TA == "":
         return "There must be a TA"
-    taObj = list(Employee.objects.filter(EMP_EMAIL=TA, EMP_ROLE="TA"))
-    courseObj = list(Course.objects.filter(title=course))
-    if len(taObj) < 1:
-        return "TA does not exist, or employee is not a TA"
-    if len(courseObj) < 1:
-        return "Course does not exist"
-    sectionObj = list(Section.objects.filter(title=section, course=courseObj[0]))
-    if len(sectionObj) < 1:
-        return "Section does not exist"
-    sectionObj[0].ta = taObj[0]
+    x = 0
+    try:
+        taObj = Employee.objects.get(EMP_EMAIL=TA, EMP_ROLE="TA")
+        x = x+1
+        instructorObj = Employee.objects.get(EMP_EMAIL=instructor, EMP_ROLE="Instructor")
+        courseObj = Course.objects.get(title=course, instructor=instructorObj)
+        x = x+1
+        sectionObj = Section.objects.get(title=section, course=courseObj)
+    except:
+        return returnMessageAssignTA[x]
+
+    sectionObj.emp = taObj
+    sectionObj.save()
     return "TA successfully assigned to section"
+
+def assignTAToSection(user, instructor, title, courser):
+    pass
 

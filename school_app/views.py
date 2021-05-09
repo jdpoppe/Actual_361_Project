@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Employee, EmployeeType
+from .models import Employee, EmployeeType, Course
 from .Helpers import createSection, createCourse, assignInstructor, assignTA
 
 
@@ -27,25 +27,39 @@ class CreateSection(View):
 
 class AssignInstructor(View):
     def get(self, request):
-        return render(request, "assignInstructor.html", {})
+        c = list(Course.objects.all())
+        courses = list()
+        for i in c:
+            courses.append((i.title, i.instructor))
+        return render(request, "assignInstructor.html", {"courses": courses})
 
     def post(self, request):
         return render(request, "assignInstructor.html",
                       {"message": assignInstructor(request.POST['email'], request.POST['course'])})
 
 
-class AssignTA(View):
+class InstructorAssignTA(View):
     def get(self, request):
-        return render(request, "assignTA.html", {})
+        instructor = Employee.objects.get(EMP_EMAIL=request.session["email"])
+        c = list(Course.objects.filter(instructor=instructor))
+        courses = list()
+        for i in c:
+            courses.append((i.title))
+        return render(request, "instructorAssignTA.html", {"courses": courses})
 
     def post(self, request):
-        return render(request, "assignTA.html",
-                      {"message": assignTA(request.POST['email'], request.POST['course'], request.POST['section'])})
+        instructor = Employee.objects.get(EMP_EMAIL=request.session["email"])
+        c = list(Course.objects.filter(instructor=instructor))
+        courses = list()
+        for i in c:
+            courses.append((i.title))
+        return render(request, "instructorAssignTA.html",
+                      {"message": assignTA(request.POST['email'], request.POST['course'], request.POST['section'],
+                                           request.session["email"]), "courses": courses})
 
 
 class Dashboard(View):
     def get(self, request):
-        print(request.session["type"])
         return render(request, "dashboard.html", {"user": request.session["type"]})
 
     def post(self, request):

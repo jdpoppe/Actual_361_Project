@@ -9,7 +9,6 @@ from school_app.models import Employee
 from django.test import Client
 
 
-
 class ProperDashboard(TestCase):
     def setUp(self):
         self.client = Client()

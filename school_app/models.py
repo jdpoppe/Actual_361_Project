@@ -22,8 +22,12 @@ class Course(models.Model):
 
 class Section(models.Model):
     title = models.CharField(max_length=20)
-    ta = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True)
+    emp = models.ForeignKey(Employee, on_delete=models.SET_NULL, blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    courseTitle = models.CharField(max_length=20)
+
+
+
+
+
 
 

@@ -20,7 +20,7 @@ class TestCreateSection(unittest.TestCase):
                                           EMP_LNAME="Kreischer", EMP_ROLE="TA", EMP_INITIAL="A",
                                           EMP_PASSWORD="456")
         self.course = Course.objects.create(title="Comedy 251", instructor=self.instructor)
-        self.section = Section.objects.create(title="Lab 801", course=self.course, ta=self.ta, courseTitle="Comedy 251")
+        self.section = Section.objects.create(title="Lab 801", course=self.course, ta=self.ta)
 
     def test_noTitle(self):
         self.assertEqual("Section needs to have title",
