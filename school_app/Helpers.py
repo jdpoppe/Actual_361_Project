@@ -105,3 +105,68 @@ def assignEmployeeToSection(employee, section, course):
     sectionObj.emp = employeeObj
     sectionObj.save()
     return returnMessageAssignEmployee[x + 1]
+
+def makeInstructor(title):
+    try:
+        currentCourse = Course.objects.get(title=title)
+        instructor = currentCourse.instructor
+        if currentCourse.instructor == None:
+            return "Instructor Not Assigned Yet"
+        return instructor.EMP_FNAME + " " + instructor.EMP_LNAME
+    except:
+        return "Course Does not Exist"
+
+
+def courseList():
+    c = Course.objects.all()
+    courses = list()
+    for i in c:
+        courses.append(i.title)
+    return courses
+
+
+
+
+
+def sectionsForCourse(course):
+    try:
+        currentCourse = Course.objects.get(title=course)
+    except:
+        raise TypeError
+    allSections = Section.objects.filter(course=currentCourse)
+    sectionNames = list()
+    for i in allSections:
+        if i.emp == None:
+            sectionNames.append((i.title, "No one", "assigned"))
+        else:
+            sectionNames.append((i.title, i.emp.EMP_FNAME, i.emp.EMP_LNAME))
+    return sectionNames
+
+def taForCourse(course):
+    try:
+        currentCourse = Course.objects.get(title=course)
+    except:
+        raise TypeError
+    allSections = Section.objects.filter(course=currentCourse)
+    sectionNames = list()
+    for i in allSections:
+        if i.emp != None:
+            toAdd = (i.emp.EMP_FNAME, i.emp.EMP_LNAME)
+            doesNotContain = True
+            isNotTA = True
+            if i.emp.EMP_ROLE != "TA":
+                isNotTA = False
+            for j in sectionNames:
+                if j == toAdd:
+                    doesNotContain=False
+                    break
+            if doesNotContain & isNotTA:
+                sectionNames.append(toAdd)
+    return sectionNames
+
+
+
+
+
+
+

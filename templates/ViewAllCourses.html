@@ -50,10 +50,6 @@
                 </div>
             </div>
         </nav>
-
-
-
-        {% if user == "Supervisor" %}
             <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
                 <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
                     <div class="h-full flex flex-col gap-2 p-2">
@@ -86,113 +82,64 @@
                     </div>
                 </nav>
 
+                      <center>
+                <style>
+                table, tr, td {
+                          border: 1px solid black;
+                          }
 
-                <center>
-                <h1 style="font-size: 50px;">Welcome, Supervisor</h1>
-                    <table id="classes" name="classes" class="classTable">
-                    <th></th>
+                </style>
+                <h1 style="font-size: 30px;">{{ currentCourse }}</h1>
+                    <table>
                         <tr>
-                            <td><button class="coolButton"><a href="/View Users"><span>View Users </span></a></button></td>
-                            <td><button class="coolButton"><a href="/ViewAllCourses/"><span>View Courses </span></a></button></td>
-                            <td><button class="coolButton"><a href="/View Users"><span>Send Notifications </span></a></button></td>
+                            <td style="color:black; font-size: 100%;">Instructor:</td>
+                            <td style="color:black; font-size: 100%;">{{ instructor }}</td>
                         </tr>
+                        <tr><td style="hover:yellowHover;color:black; font-size: 100%;">TA's:</td>
+                        <td>
+                        <table>
+                        {% for i in allTA %}
+                            <tr>
+                                <td style="text-align:left;color:#000000; font-size: 100%;">{{ i.0 }} {{ i.1 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td style="hover:yellowHover;color:black; font-size: 100%;">Section:</td>
+                        <td>
+
+                            <table>
+                                {% for i in allSections %}
+                                    <tr>
+                                        <td style="color:black; font-size: 100%;">{{ i.0 }}, taught by {{ i.1 }} {{ i.2 }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        </tr>
+
+
                     </table>
+                      <br><br>
+                    <form method="post" action="/ViewAllCourses/">
+                    {% csrf_token %}
+                        <table1 id="classes" name="classes" class="classTable">
+                            <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Title:</td><td>
+                                <select id="course" name="currentCourse">
+                                        <option>Please Select A Course</option>
+                                        {% for i in courses %}
+                                            <option >{{i}}</option>
+                                        {% endfor %}
+                                </select>
+                             </td></tr>
+                        </table1>
+                        <input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
+                    </td>
+                    </form>
 
                 </center>
-
             </section>
-        {% endif %}
-
-
-
-        {% if user == "Instructor" %}
-            <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
-                <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
-                    <div class="h-full flex flex-col gap-2 p-2">
-                        <div class="py-2 flex flex-col gap-1">
-                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
-                                <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
-                                <p class="font-semibold">Home</p>
-                            </a>
-                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/instructorAssignTA/">
-                                <i class="fas fa-plus-circle text-sm w-8"></i>
-                                <p class="font-semibold">Assign TAs to Lab</p>
-                            </a>
-                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
-                                <i class="fas fa-thumbtack text-sm w-8"></i>
-                                <p class="font-semibold">Edit Contact Info</p>
-                            </a>
-                        </div>
-                    </div>
-                </nav>
-
-
-                <center>
-                <h1 style="font-size: 50px;">Welcome, Instructor</h1>
-                    <table id="classes" name="classes" class="classTable">
-                    <th></th>
-                        <tr>
-                            <td><button class="coolButton"><a href="/ViewAllCourses/"><span>View Course Assignments </span></a></button></td>
-                            <td><br></td>
-                            <td><button class="coolButton"><a href="/View Users"><span>View TA Assignments </span></a></button></td>
-                        </tr>
-                        <tr>
-                            <td><br></td>
-                        </tr>
-                        <tr>
-                            <td><button class="coolButton"><a href="/View Users"><span>View Public Contact Info </span></a></button></td>
-                            <td><br></td>
-                            <td><button class="coolButton"><a href="/View Users"><span>Send Notification </span></a></button></td>
-                        </tr>
-                    </table>
-
-                </center>
-
-            </section>
-        {% endif %}
-
-        {% if user == "TA" %}
-            <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
-                <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
-                    <div class="h-full flex flex-col gap-2 p-2">
-                        <div class="py-2 flex flex-col gap-1">
-                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
-                                <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
-                                <p class="font-semibold">Home</p>
-                            </a>
-                            <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse">
-                                <i class="fas fa-plus-circle text-sm w-8"></i>
-                                <p class="font-semibold">Edit Contact Info</p>
-                            </a>
-                        </div>
-                    </div>
-                </nav>
-
-
-                <center>
-                <h1 style="font-size: 50px;">Welcome, TA</h1>
-                    <table id="classes" name="classes" class="classTable">
-                    <th></th>
-                        <tr>
-                            <td><button class="coolButton"><a href="/View Users"><span>View TA assignments</span></a></button></td>
-                            <td><br></td>
-                            <td><button class="coolButton"><a href="/View Users"><span>Read Public Contact Info</span></a></button></td>
-                        </tr>
-                    </table>
-
-                </center>
-
-            </section>
-        {% endif %}
-
-        {% if user == "Hacker" %}
-            <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
-
-                <center>
-                <h1 style="font-size: 50px;">You shouldn't be here</h1>
-                </center>
-
-            </section>
-        {% endif %}
     </body>
 </html>

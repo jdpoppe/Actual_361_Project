@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Employee, EmployeeType, Course
-from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection
+from .models import Employee, EmployeeType, Course, Section
+from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection, courseList, \
+    makeInstructor, sectionsForCourse, taForCourse
 
 
 # Create your views here.
@@ -60,21 +61,35 @@ class InstructorAssignTA(View):
 
 class AssignEmployee(View):
     def get(self, request):
-        c = Course.objects.all()
-        courses = list()
-        for i in c:
-            courses.append((i.title))
-        return render(request, "assignTA.html", {"courses": courses})
+        return render(request, "assignTA.html", {"courses": courseList()})
 
     def post(self, request):
-        c = Course.objects.all()
-        courses = list()
-        for i in c:
-            courses.append((i.title))
         return render(request, "assignTA.html", {"message": assignEmployeeToSection(request.POST["email"],
                                                                              request.POST["section"],
                                                                              request.POST["course"]),
-                                                 "courses": courses})
+                                                 "courses": courseList()})
+
+
+class ViewAllCourses(View):
+    def get(self, request):
+        return render(request, "ViewAllCourses.html", {"courses":courseList(),"currentCourse":"Select a Course"})
+
+    def post(self, request):
+        course = request.POST["currentCourse"]
+        instructor = ""
+        allTA = []
+        allSections = []
+        try:
+            instructor = makeInstructor(course)
+            allTA = taForCourse(course)
+            allSections = sectionsForCourse(course)
+        except:
+            course = "Please Enter Valid Course"
+
+        return render(request, "ViewAllCourses.html", {"courses": courseList(),
+                                                       "currentCourse": course,
+                                                       "instructor": instructor,"allTA": allTA,
+                                                       "allSections": allSections})
 
 
 class Dashboard(View):
