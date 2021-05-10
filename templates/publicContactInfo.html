@@ -113,8 +113,9 @@
         <th>Middle Initial</th>
         <th>Last Name</th>
         <th>Role</th>
+        <th></th>
         <th>Email</th>
-        <th>copy</th>
+
     </tr>
 
     {% for i in entries %}
@@ -123,19 +124,10 @@
             <td>{{i.1}}</td>
             <td>{{i.2}}</td>
             <td>{{i.3}}</td>
-            <td>{{i.4}}</td>
-            <td><button onclick="myFunction()">{{i.4}}</button></td>
+            <td></td>
+            <td style="color:Black">{{i.4}}</td>
+            <th></th>
 
-            <input type="text" value={{i.4}} id="myInput">
-            <script>
-                function myFunction() {
-                var copyText = document.getElementById("myInput");
-                copyText.select();
-                copyText.setSelectionRange(0, 99999)
-                document.execCommand("copy");
-                alert("Copied the email: " + copyText.value);
-}
-            </script>
 
         </tr>
     {% endfor %}
