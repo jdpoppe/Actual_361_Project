@@ -164,6 +164,15 @@ def taForCourse(course):
                 sectionNames.append(toAdd)
     return sectionNames
 
+def courseAndSection(courses):
+    courseAndSection = []
+    for i in courses:
+        sections = sectionsForCourse(i)
+        courseAndSection.append((i, sections))
+    return courseAndSection
+
+
+
 
 
 

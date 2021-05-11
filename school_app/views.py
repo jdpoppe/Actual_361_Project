@@ -2,28 +2,32 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import Employee, EmployeeType, Course, Section
 from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection, courseList, \
-    makeInstructor, sectionsForCourse, taForCourse
+    makeInstructor, sectionsForCourse, taForCourse, courseAndSection
 
 
 # Create your views here.
 
 class CreateCourse(View):
     def get(self, request):
-        return render(request, "createCourse.html", {})
+
+        return render(request, "createCourse.html", {"courses":courseList()})
 
     def post(self, request):
         message = createCourse(request.POST['courseTitle'], request.POST['instructorEmail'])
         print(message)
-        return render(request, "createCourse.html", {"message": message})
+        return render(request, "createCourse.html", {"message": message,"courses":courseList()})
 
 
 class CreateSection(View):
     def get(self, request):
-        return render(request, "createSection.html", {})
+        return render(request, "createSection.html", {"courseAndSection":courseAndSection(courseList())})
 
     def post(self, request):
         message = createSection(request.POST['secTitle'], request.POST['taEmail'], request.POST['course'])
-        return render(request, "createSection.html", {"message": message})
+        return render(request, "createSection.html",
+                      {"message": createSection(request.POST['secTitle'], request.POST['taEmail'],
+                                                request.POST['course']),
+                       "courseAndSection":courseAndSection(courseList())})
 
 
 class AssignInstructor(View):

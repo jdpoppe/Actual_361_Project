@@ -22,10 +22,7 @@
         <meta name="viewport" content="width=device-width">
   	</head>
     <body>
-        <center>
-    	    <br><br>
-    	    <h1 class="font-bold text-2xl"  style="margin-left: 20px;">Create A Course</h1>
-    	</center>
+
 
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
     	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
@@ -53,18 +50,9 @@
     		</div>
     	</div>
     </nav>
-    <center>
-         <form action="/createCourse/" method="post">
-             {% csrf_token %}
-             <table>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Name: </td><td><input type="text" name="courseTitle"></td></tr>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Instructor Email (Optional):</td><td><input type="text" name="instructorEmail"></td></tr>
-             </table>
-             <input input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
-         </form>
-        <p class="font-semibold">{{ message }}</p>
-    </center>
+
     <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
+
     	<nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
     		<div class="h-full flex flex-col gap-2 p-2">
     			<div class="py-2 flex flex-col gap-1">
@@ -92,7 +80,32 @@
     			</div>
     		</div>
     	</nav>
-
+        <center>
+        <h1 class="font-bold text-2xl"  style="margin-left: 20px;">Create A Course</h1>
+        <br>
+         <form action="/createCourse/" method="post">
+             {% csrf_token %}
+             <table>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Name: </td><td><input type="text" name="courseTitle"></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Instructor Email (Optional):</td><td><input type="text" name="instructorEmail"></td></tr>
+             </table>
+             <input input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
+         </form>
+        <p class="font-semibold">{{ message }}</p>
+        <style>
+            table, tr {
+                border: 1px solid black;
+            }
+        </style>
+        <br>
+        <table>
+            {% for i in courses %}
+                <tr>
+                    <td style="width:500px;text-align:left;color:#000000; font-size: 100%;">{{ i }} </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </center>
     </section>
 
     </body>
