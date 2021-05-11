@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from flask import app, Flask
+
 from .models import Employee, EmployeeType, Course, Section
 from .Helpers import createSection, createCourse, assignInstructor, assignTA
 import smtplib
@@ -94,6 +96,36 @@ class Notifications(View):
     def get(self, request):
         return render(request, "notifications.html", {})
     def post(self, request):
+        from flask_mail import Mail, Message
+
+
+
+        def index(mail):
+            msg = Message('Hello', sender='smtpTestcs361@gmail.com', recipients=['halver78@uwm.edu'])
+            msg.body = "Hello Flask message sent from Flask-Mail"
+            mail.send(msg)
+            return "Sent"
+
+
+        def create_app():
+            app = Flask(__name__)
+            #@app.route("/")
+            with app.app_context():
+                app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+                app.config['MAIL_PORT'] = 465
+                app.config['MAIL_USERNAME'] = 'smtpTestcs361@gmail.com'
+                app.config['MAIL_PASSWORD'] = 'gyuJ5b!#^T^Pj*Uod0'
+                app.config['MAIL_USE_TLS'] = False
+                app.config['MAIL_USE_SSL'] = True
+                mail = Mail(app)
+                index(mail)
+            return app
+
+        app = create_app()
+
+
+
+
         return render(request, "notifications.html", {})
 
 class ClassView(View):
