@@ -157,7 +157,6 @@ class CreateAccount(View):
 # new
 class PublicContactInfo(View):
     def get(self, request):
-        m = request.session["email"]
         allEmployee = list(Employee.objects.all())
         formattedEntries = []
         for i in allEmployee:
@@ -166,24 +165,10 @@ class PublicContactInfo(View):
         return render(request, "publicContactInfo.html", {"entries": formattedEntries, "roles": EmployeeType.choices})
 
     def post(self, request):
-        m = request.session["email"]
-        canAdd = False
-        message = ""
-        try:
-            m = Employee.objects.get(EMP_EMAIL=request.POST['email'])
-        except:
-            canAdd = True
-        if canAdd:
-            Employee.objects.create(EMP_ROLE=request.POST['role'], EMP_LNAME=request.POST['l_name'],
-                                    EMP_FNAME=request.POST['f_name'], EMP_INITIAL=request.POST['initial'],
-                                    EMP_EMAIL=request.POST['email'], EMP_PASSWORD=request.POST['password'])
-            message = "Account created"
-        else:
-            message = "Email is already exists"
+
         allEmployee = list(Employee.objects.all())
         formattedEntries = []
         for i in allEmployee:
             formattedEntries.append(
                 (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
-        return render(request, "publicContactInfo.html", {"entries": formattedEntries, "message": message,
-                                                      "roles": EmployeeType.choices})
+        return render(request, "publicContactInfo.html", {"entries": formattedEntries, "roles": EmployeeType.choices})
