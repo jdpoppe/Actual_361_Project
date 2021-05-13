@@ -1,32 +1,27 @@
-import unittest
+from django.test import TestCase
 
 import os
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
-
 django.setup()
-
-from school_app.models import Employee, Course, Section
-from school_app.Helpers import assignEmployeeToSection
-
+from school_app.models import Course, Section
+from school_app.Helpers import assignEmployeeToSection, createEmp
 
 
-class TestAssignEmployeeToSection(unittest.TestCase):
+
+class TestAssignEmployeeToSection(TestCase):
     def setUp(self):
-        if len(list(Employee.objects.filter(EMP_EMAIL="abc1@uwm.edu"))) < 1:
-            self.instructor1 = Employee.objects.create(EMP_EMAIL="abc1@uwm.edu", EMP_PASSWORD="123", EMP_FNAME= "john",
-                                                      EMP_LNAME= "doe", EMP_INITIAL= "a", EMP_ROLE="Instructor")
-            self.instructor2 = Employee.objects.create(EMP_EMAIL="abc2@uwm.edu", EMP_PASSWORD="123", EMP_FNAME= "james",
-                                                      EMP_LNAME= "doe", EMP_INITIAL= "a", EMP_ROLE="Instructor")
-            self.ta = Employee.objects.create(EMP_EMAIL="def1@uwm.edu", EMP_PASSWORD="123", EMP_FNAME= "jane",
-                                                      EMP_LNAME= "doe", EMP_INITIAL= "a", EMP_ROLE="TA")
-            self.supervisor = Employee.objects.create(EMP_EMAIL="ghi1@uwm.edu", EMP_PASSWORD="123", EMP_FNAME= "jack",
-                                                      EMP_LNAME= "doe", EMP_INITIAL= "a", EMP_ROLE="Supervisor")
-            self.courseNoInstructor = Course.objects.create(title="Class 1", instructor=None)
-            self.courseHasInstructor = Course.objects.create(title="Class 2", instructor=self.instructor1)
-            self.section1 = Section.objects.create(title="Section 1", course=self.courseNoInstructor)
-            self.section2 = Section.objects.create(title="Section 2", course=self.courseHasInstructor)
+        self.employeeList = {"abc1@uwm.edu":["john","doe","Instructor","a","123"],
+                             "abc2@uwm.edu":["james","doe","Instructor","a","123"],
+                             "def1@uwm.edu":["jane","doe","TA","a","123"],
+                             "ghi1@uwm.edu":["jack","doe","Supervisor","a","123"]}
+        self.empObj = list()
+        self.empObj = createEmp(self.employeeList, self.empObj)
+        self.courseNoInstructor = Course(title="Class 1", instructor=None)
+        self.courseNoInstructor.save()
+        self.courseHasInstructor = Course.objects.create(title="Class 2", instructor=self.empObj[0])
+        self.section1 = Section.objects.create(title="Section 1", course=self.courseNoInstructor)
+        self.section2 = Section.objects.create(title="Section 2", course=self.courseHasInstructor)
 
     def test_courseDNE(self):
         self.assertEqual("Course does not exist", assignEmployeeToSection("def1@uwm.edu", "Section 1", "Class 0"),

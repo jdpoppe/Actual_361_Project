@@ -1,27 +1,26 @@
-import unittest
+from django.test import TestCase
 
 import os
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
 django.setup()
+from school_app.models import Course
+from school_app.Helpers import makeInstructor,createEmp
 
-from school_app.models import Employee, Course, Section
-from school_app.Helpers import makeInstructor
 
-
-class TestMakeInstructor(unittest.TestCase):
+class TestMakeInstructor(TestCase):
     def setUp(self):
-        if len(Employee.objects.filter(EMP_EMAIL="fleetwood@uwm.edu"))<1:
-            self.instructor = Employee.objects.create(EMP_EMAIL="fleetwood@uwm.edu", EMP_FNAME="Fleetwood",
-                                                      EMP_LNAME="Mac", EMP_ROLE="Instructor", EMP_INITIAL="J",
-                                                      EMP_PASSWORD="123")
-            self.ghost = Employee.objects.create(EMP_EMAIL="", EMP_FNAME="",
-                                                      EMP_LNAME="", EMP_ROLE="Instructor", EMP_INITIAL="",
-                                                      EMP_PASSWORD="")
-            self.course1 = Course.objects.create(title="Class 7", instructor=self.instructor)
-            self.course2 = Course.objects.create(title="Class 8")
-            self.course3 = Course.objects.create(title="Class 9", instructor=self.ghost)
+        self.employeeList = {"fleetwood@uwm.edu":["Fleetwood","Mac","Instructor","J","123"],
+                             "":["","","Instructor","",""]}
+        self.empObj = list()
+        self.empObj = createEmp(self.employeeList, self.empObj)
+        self.course1 = Course(title="Class 7", instructor=self.empObj[0])
+        self.course1.save()
+        self.course2 = Course(title="Class 8")
+        self.course2.save()
+        self.course3 = Course(title="Class 9", instructor=self.empObj[1])
+        self.course3.save()
+
 
     def test_invalidCourse(self):
         self.assertEqual(makeInstructor("a;slkdfjapsoifjas"), "Course Does not Exist",

@@ -23,11 +23,10 @@ class CreateSection(View):
         return render(request, "createSection.html", {"courseAndSection":courseAndSection(courseList())})
 
     def post(self, request):
-        message = createSection(request.POST['secTitle'], request.POST['taEmail'], request.POST['course'])
         return render(request, "createSection.html",
                       {"message": createSection(request.POST['secTitle'], request.POST['taEmail'],
                                                 request.POST['course']),
-                       "courseAndSection":courseAndSection(courseList())})
+                       "courseAndSection": courseAndSection(courseList())})
 
 
 class AssignInstructor(View):

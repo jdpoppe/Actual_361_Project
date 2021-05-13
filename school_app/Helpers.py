@@ -18,37 +18,58 @@ def createCourse(title, email):
     Course.objects.create(title=title, instructor=instructor)
     return "Course Successfully Created"
 
-
+createSectionMessage = {0:"Section needs to have title",
+                        1:"Section needs to have a course",
+                        2:"Course does not exist",
+                        3:"TA does not exist, or employee is not TA",
+                        4:"Section already exists",
+                        5:"Section successfully added"}
 def createSection(title, ta, course):
-    if title == "":
-        return "Section needs to have title"
-    taObj = ""
-    if ta != "":
-        taObj = list(Employee.objects.filter(EMP_EMAIL=ta, EMP_ROLE="TA"))
-        if len(taObj) < 1:
-            return "TA does not exist, or employee is not TA"
-    if course == "":
-        return "Section needs to have a course"
-    courseObj = list(Course.objects.filter(title=course))
-    if len(courseObj) < 1:
-        return "Course does not exist"
-    if (len(Section.objects.filter(title=title))) > 0:
-        return "Section already exists"
-    Section.objects.create(title=title, ta=taObj[0], course=courseObj[0])
-    return "Section successfully added"
+    x = 0
+    checkEmpty = [title,course]
+    for i in checkEmpty:
+        if i == "":
+            return createSectionMessage[x]
+        x = x+1
+    try:
+        courseObj = Course.objects.get(title=course)
+        x = x+1
+        taObj = Employee.objects.get(EMP_EMAIL=ta, EMP_ROLE="TA")
+    except:
+        if (x == 3 and ta != "")|(x == 2):
+            return createSectionMessage[x]
+        else:
+            taObj = ""
+    x = x+1
+    if (len(Section.objects.filter(title=title, course=courseObj))) > 0:
+        return createSectionMessage[x]
+    x = x+1
+    if taObj == "":
+        Section.objects.create(title=title, course=courseObj)
+    else:
+        Section.objects.create(title=title, emp=taObj, course=courseObj)
+    return createSectionMessage[x]
 
+assignInstructorMessage = {0:"There must be an instructor",
+                           1:"Instructor does not exist, or employee is not an instructor",
+                           2:"Course does not exist",
+                           3:"Instructor successfully assigned to course"}
 
 def assignInstructor(instructor, course):
+    x = 0
     if instructor == "":
-        return "There must be an instructor"
-    instructorObj = list(Employee.objects.filter(EMP_EMAIL=instructor, EMP_ROLE="Instructor"))
-    if (len(instructorObj) < 1):
-        return "Instructor does not exist, or employee is not an instructor"
-    courseObj = list(Course.objects.filter(title=course))
-    if (len(courseObj) < 1):
-        return "Course does not exist"
-    courseObj[0].instructor = instructorObj[0]
-    return "Instructor successfully assigned to course"
+        return assignInstructorMessage[x]
+    x = x+1
+    try:
+        instructorObj = Employee.objects.get(EMP_EMAIL=instructor, EMP_ROLE="Instructor")
+        x = x+1
+        courseObj = Course.objects.get(title=course)
+        x=x+1
+    except:
+        return assignInstructorMessage[x]
+    courseObj.instructor = instructorObj
+    courseObj.save()
+    return assignInstructorMessage[x]
 
 
 returnMessageAssignTA = {0: "TA does not exist, or employee is not a TA",
@@ -170,6 +191,15 @@ def courseAndSection(courses):
         sections = sectionsForCourse(i)
         courseAndSection.append((i, sections))
     return courseAndSection
+
+def createEmp(employeeList, empObj):
+    for i in employeeList.keys():
+        temp = Employee(EMP_EMAIL=i, EMP_FNAME=employeeList[i][0], EMP_LNAME=employeeList[i][1],
+                        EMP_ROLE=employeeList[i][2], EMP_INITIAL=employeeList[i][3],
+                        EMP_PASSWORD=employeeList[i][4])
+        temp.save()
+        empObj.append(temp)
+    return empObj
 
 
 

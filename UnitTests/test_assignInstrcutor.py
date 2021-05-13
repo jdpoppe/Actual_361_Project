@@ -1,31 +1,23 @@
-import unittest
+from django.test import TestCase
 
 import os
-
-from docutils.parsers import null
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
 django.setup()
+from school_app.models import Course
+from school_app.Helpers import assignInstructor, createEmp
 
-from school_app.models import Employee, Course
-from school_app.Helpers import assignInstructor
-
-class TestAssignInstructor(unittest.TestCase):
+class TestAssignInstructor(TestCase):
     def setUp(self):
-        self.instructor1 = Employee.objects.create(EMP_EMAIL="jimgaffigan@uwm.edu", EMP_FNAME="Jim",
-                                                  EMP_LNAME="Gaffigan", EMP_ROLE="Instructor", EMP_INITIAL="T",
-                                                  EMP_PASSWORD="123")
-        self.instructor2 = Employee.objects.create(EMP_EMAIL="billburr@uwm.edu", EMP_FNAME="Bill",
-                                                  EMP_LNAME="Burr", EMP_ROLE="Instructor", EMP_INITIAL="B",
-                                                  EMP_PASSWORD="789")
-        self.fakeinstructor = Employee.objects.create(EMP_EMAIL="", EMP_FNAME="", EMP_LNAME="", EMP_ROLE="Instructor",
-                                                      EMP_INITIAL="", EMP_PASSWORD="")
-        self.ta = Employee.objects.create(EMP_EMAIL="bertkreischer@uwm.edu", EMP_FNAME="Bert",
-                                          EMP_LNAME="Kreischer", EMP_ROLE="TA", EMP_INITIAL="A",
-                                          EMP_PASSWORD="456")
-        self.course = Course.objects.create(title="Comedy 251", instructor=self.instructor1)
-        self.course = Course.objects.create(title="Comedy 351", instructor=self.fakeinstructor)
+        self.employeeList = {"jimgaffigan@uwm.edu":["Jim","Gaffigan","Instructor","T","123"],
+                             "billburr@uwm.edu":["Bill","Burr","Instructor","B","789"],
+                             "bertkreischer@uwm.edu":["Bert","Kreischer","TA","A","456"]}
+        self.empObj = list()
+        self.empObj = createEmp(self.employeeList, self.empObj)
+        self.course1 = Course(title="Comedy 251", instructor=self.empObj[0])
+        self.course1.save()
+        self.course2 = Course(title="Comedy 351")
+        self.course2.save()
 
     def test_courseDNE(self):
         self.assertEqual("Course does not exist", assignInstructor("jimgaffigan@uwm.edu","Comedy 457"))
