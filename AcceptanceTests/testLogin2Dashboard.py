@@ -1,23 +1,25 @@
-import os
+from django.test import TestCase
 
+import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
-
 django.setup()
-from django.test import TestCase
-from school_app.models import Employee
+from school_app.models import Course, Section
+from school_app.Helpers import createEmp
 from django.test import Client
 
 
 class ProperDashboard(TestCase):
     def setUp(self):
         self.client = Client()
-        self.ta = Employee.objects.create(EMP_ROLE="TA", EMP_LNAME="Kreischer", EMP_FNAME="Bert",
-                                          EMP_INITIAL="D", EMP_PASSWORD="123", EMP_EMAIL="bertkreischer@uwm.edu")
-        self.instructor = Employee.objects.create(EMP_ROLE="Instructor", EMP_LNAME="Segurra", EMP_FNAME="Tom",
-                                                  EMP_INITIAL="R", EMP_PASSWORD="123", EMP_EMAIL="tomsegurra@uwm.edu")
-        self.supervisor = Employee.objects.create(EMP_ROLE="Supervisor", EMP_LNAME="Gaffigan", EMP_FNAME="Jim",
-                                                  EMP_INITIAL="L", EMP_PASSWORD="123", EMP_EMAIL="jimgaffigan@uwm.edu")
+        self.employeeList = {"bertkreischer@uwm.edu":["Bert","Kreischer","TA","D","123"],
+                             "tomsegurra@uwm.edu":["Tom","Segurra","Instructor","D","123"],
+                             "jimgaffigan@uwm.edu":["Jim","Gaffigan","Supervisor","L","123"]}
+        self.empObj = list()
+        self.empObj = createEmp(self.employeeList, self.empObj)
+        self.ta = self.empObj[0]
+        self.instructor = self.empObj[1]
+        self.supervisor = self.empObj[2]
 
     def test_skipLogIn(self):
         response = self.client.get('/')

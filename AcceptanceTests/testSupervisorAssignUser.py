@@ -1,35 +1,33 @@
-import os
+from django.test import TestCase
 
+import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
-
 django.setup()
-from django.test import TestCase
-from school_app.models import Employee, Section, Course
+from school_app.models import Course, Section
+from school_app.Helpers import createEmp
 from django.test import Client
 
 
 class TestSupervisorAssign(TestCase):
     def setUp(self):
         self.client = Client()
-        c = Course.objects.all()
-        self.courses = list()
-        for i in c:
-            self.courses.append(i.title)
+        self.employeeList = {"abc1@uwm.edu":["john","doe","Instructor","a","123"],
+                             "abc3@uwm.edu":["james","doe","Instructor","a","123"],
+                             "def3@uwm.edu":["jane","doe","TA","a","123"],
+                             "ghi3@uwm.edu":["jack","doe","Supervisor","a","123"]}
+        self.empObj = list()
+        self.empObj = createEmp(self.employeeList, self.empObj)
+        self.courseNoInstructor = Course(title="Class 3")
+        self.courseNoInstructor.save()
+        self.courseHasInstructor = Course(title="Class 4", instructor=self.empObj[0])
+        self.courseHasInstructor.save()
+        self.section1 = Section(title="Section 3", course=self.courseNoInstructor)
+        self.section1.save()
+        self.section2 = Section(title="Section 4", course=self.courseHasInstructor)
+        self.section2.save()
+        self.courses = ["Class 3", "Class 4"]
 
-        if len(list(Employee.objects.filter(EMP_EMAIL="abc1@uwm.edu"))) < 1:
-            self.instructor1 = Employee.objects.create(EMP_EMAIL="abc3@uwm.edu", EMP_PASSWORD="123", EMP_FNAME="john",
-                                                       EMP_LNAME="doe", EMP_INITIAL="a", EMP_ROLE="Instructor")
-            self.instructor2 = Employee.objects.create(EMP_EMAIL="abc4@uwm.edu", EMP_PASSWORD="123", EMP_FNAME="james",
-                                                       EMP_LNAME="doe", EMP_INITIAL="a", EMP_ROLE="Instructor")
-            self.ta = Employee.objects.create(EMP_EMAIL="def3@uwm.edu", EMP_PASSWORD="123", EMP_FNAME="jane",
-                                              EMP_LNAME="doe", EMP_INITIAL="a", EMP_ROLE="TA")
-            self.supervisor = Employee.objects.create(EMP_EMAIL="ghi3@uwm.edu", EMP_PASSWORD="123", EMP_FNAME="jack",
-                                                      EMP_LNAME="doe", EMP_INITIAL="a", EMP_ROLE="Supervisor")
-            self.courseNoInstructor = Course.objects.create(title="Class 3", instructor=None)
-            self.courseHasInstructor = Course.objects.create(title="Class 4", instructor=self.instructor1)
-            self.section1 = Section.objects.create(title="Section 3", course=self.courseNoInstructor)
-            self.section2 = Section.objects.create(title="Section 4", course=self.courseHasInstructor)
     def test_get(self):
         response = self.client.get("/assignTA/")
         self.assertEqual(response.context["courses"], self.courses, "The incorrect course's list gets loaded when "
@@ -87,7 +85,7 @@ class TestSupervisorAssign(TestCase):
 
     def test_courseInstructorIsInstructor(self):
         response = self.client.post("/assignTA/",
-                                    {"email": "abc3@uwm.edu", "section": "Section 4", "course": "Class 4"})
+                                    {"email": "abc1@uwm.edu", "section": "Section 4", "course": "Class 4"})
         self.assertEqual(response.context["message"], "Employee successfully assigned to section",
                          msg="Successfully assigning an instructor to a section in their own course"
                              " fails to post correct message")
@@ -97,7 +95,7 @@ class TestSupervisorAssign(TestCase):
 
     def test_courseInstructorNotInstructor(self):
         response = self.client.post("/assignTA/",
-                                    {"email": "abc4@uwm.edu", "section": "Section 4", "course": "Class 4"})
+                                    {"email": "abc3@uwm.edu", "section": "Section 4", "course": "Class 4"})
         self.assertEqual(response.context["message"],
                          "Course has different Instructor assigned to it, cannot assign new instructor to section",
                          msg="Trying to assign a instructor to a section in a course they are not assigned to"
