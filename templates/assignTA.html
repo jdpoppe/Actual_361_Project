@@ -24,7 +24,7 @@
     <body>
         <center>
     	    <br><br>
-    	    <h1 class="font-bold text-2xl" style="margin-left: 20px;">Assign a TA to a Section</h1>
+
     	</center>
 
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
@@ -53,48 +53,8 @@
     		</div>
     	</div>
     </nav>
-    <center>
-         <form method="post" action="/assignTA/">
-             {% csrf_token %}
-             <table>
-                 <tr><td><label class="font-semibold text-xs">Class Title: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                    <td>
-                        <select id="course" name="course">
-                            <option>Please Select A Course</option>
-                            {% for i in courses %}
-                                <option >{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                </tr>
-                 <tr><td><label class="font-semibold text-xs">Section Title: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                    <td>
-                        <select id="sections" name="sections">
-                            <option>Please Select A Section</option>
-                            {% for i in sections %}
-                                <option >{{i.0}}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                     <td><label class="font-semibold text-xs">TA Email: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                     <td><input type="text" id="email" name="email" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <div class="flex justify-end">
-                            <button class="bg-blue-500 hover:bg-blue-600 transition duration-200 ease-in-out rounded text-xs px-3 py-2 tracking-widest text-white font-semibold focus:outline-none">Save</button>
-                        </div>
-                    </td>
-                </tr>
-             </table>
-         </form>
-         <p class="font-semibold">{{ message }}</p>
-    </center>
     <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
-    	<nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
+        <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
     		<div class="h-full flex flex-col gap-2 p-2">
     			<div class="py-2 flex flex-col gap-1">
 
@@ -117,6 +77,26 @@
     			</div>
     		</div>
     	</nav>
+    <center>
+        <h1 class="font-bold text-2xl" style="margin-left: 20px;">Assign an Employee to a Section</h1>
+         <form method="post" action="/assignTA/">
+             {% csrf_token %}
+             <table>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Title:</td><td>
+                     <select id="course" name="course">
+                                <option>Please Select A Course</option>
+                                {% for i in courses %}
+                                    <option >{{i}}</option>
+                                {% endfor %}
+                     </select>
+                 </td></tr></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Section Title:</td><td><input type="text" name="section"></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">TA Email:</td><td><input type="text" name="email"></td></tr>
+             </table>
+             <input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
+         </form>
+         <p class="font-semibold">{{ message }}</p>
+    </center>
 
     </section>
 

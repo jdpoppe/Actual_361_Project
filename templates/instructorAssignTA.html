@@ -20,8 +20,12 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <meta name="viewport" content="width=device-width">
-    </head>
+  	</head>
     <body>
+        <center>
+    	    <br><br>
+    	    <h1 class="font-bold text-2xl" style="margin-left: 20px;">Assign a Ta to a Section</h1>
+    	</center>
 
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
     	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
@@ -50,8 +54,7 @@
     	</div>
     </nav>
     <section class="mt-12 text-gray-800 tracking-widest w-full max-w-6xl mx-auto flex min-h-screen">
-
-    	<nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
+        <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
     		<div class="h-full flex flex-col gap-2 p-2">
     			<div class="py-2 flex flex-col gap-1">
 
@@ -61,11 +64,11 @@
     				</a>
                     <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
     					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Assign Instructors to Courses</p>
+    					<p class="font-semibold">Assign Instructor to a Class</p>
     				</a>
-                    <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignTA/">
+                    <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createSection/">
     					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Assign Employees to Sections</p>
+    					<p class="font-semibold">Create Section</p>
     				</a>
                     <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard/">
     					<i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
@@ -74,49 +77,27 @@
     			</div>
     		</div>
     	</nav>
-        <center>
-         <h1 class="font-bold text-2xl" style="margin-left: 20px;">Create A Section</h1>
-        <br><br>
-         <form method="post" action="/createSection/">
+    <center>
+         <form method="post" action="/instructorAssignTA/">
              {% csrf_token %}
-                 <table>
-                     <tr>
-                         <td style="hover:yellowHover;">Section Title:</td>
-                         <td><input type="text" name="secTitle"></td>
-                     </tr>
-                     <tr><td style="hover:yellowHover;">Course Title:</td><td><input type="text" name="course"></td></tr>
-                     <tr><td style="hover:yellowHover;">TA Email (Optional):</td><td><input type="text" name="taEmail"></td></tr>
-                 </table>
-                 <input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
-             </form>
-             <p class="font-semibold">{{ message }}</p>
+             <table>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Title:</td><td>
+                     <select id="course" name="course">
+                                <option>Please Select A Course</option>
+                                {% for i in courses %}
+                                    <option >{{i}}</option>
+                                {% endfor %}
+                     </select>
+                 </td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Section Title:</td><td><input type="text" name="section"></td></tr>
+                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">TA Email:</td><td><input type="text" name="email"></td></tr>
+             </table>
+             <input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
+         </form>
+         <p class="font-semibold">{{ message }}</p>
+    </center>
 
-        <style>
-            table, tr, td {
-                border: 1px solid black;
-            }
-        </style>
-        <br>
-        <table style="width:500px">
-
-            {% for i in courseAndSection %}
-                <tr>
-                    <td style="width:200px;color:#000000; font-size: 100%;">{{ i.0 }} </td>
-                    <td>
-                        <table>
-                            {% for j in i.1 %}
-                                <tr>
-                                    <td style="width:300px;text-align:left;color:#000000; font-size: 100%;">{{ j.0 }} </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-        </center>
     </section>
-
 
     </body>
 </html>

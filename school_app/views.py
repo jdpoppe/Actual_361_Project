@@ -1,31 +1,38 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import Employee, EmployeeType, Course, Section
-from .Helpers import createSection, createCourse, assignInstructor, assignTA
+
+from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection, courseList, \
+    makeInstructor, sectionsForCourse, taForCourse, courseAndSectio
 import smtplib
 # Create your views here.
 
 class CreateCourse(View):
     def get(self, request):
-        return render(request, "createCourse.html", {})
+
+        return render(request, "createCourse.html", {"courses":courseList()})
 
     def post(self, request):
-        print("IM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\nIM HERE\n")
         message = createCourse(request.POST['courseTitle'], request.POST['instructorEmail'])
         print(message)
-        return render(request, "createCourse.html", {"message": message})
+        return render(request, "createCourse.html", {"message": message,"courses":courseList()})
+
 
 class CreateSection(View):
-    def get(self,request):
-        return render(request, "createSection.html", {})
+    def get(self, request):
+        return render(request, "createSection.html", {"courseAndSection":courseAndSection(courseList())})
 
     def post(self, request):
-        message = createSection(request.POST['secTitle'], request.POST['taEmail'], request.POST['course'])
-        return render(request, "createSection.html", {"message": message})
+        return render(request, "createSection.html",
+                      {"message": createSection(request.POST['secTitle'], request.POST['taEmail'],
+                                                request.POST['course']),
+                       "courseAndSection": courseAndSection(courseList())})
+
 
 class AssignInstructor(View):
     def get(self, request):
-        c=list(Course.objects.all())
+        c = list(Course.objects.all())
+
         courses = list()
         for i in c:
             courses.append((i.title, i.instructor))
@@ -33,37 +40,77 @@ class AssignInstructor(View):
 
     def post(self, request):
         return render(request, "assignInstructor.html",
-                      {"message":assignInstructor(request.POST['email'], request.POST['course'])})
+                      {"message": assignInstructor(request.POST['email'], request.POST['course'])})
 
-class AssignTA(View):
+
+class InstructorAssignTA(View):
     def get(self, request):
-        c=list(Course.objects.all())
+        instructor = Employee.objects.get(EMP_EMAIL=request.session["email"])
+        c = list(Course.objects.filter(instructor=instructor))
         courses = list()
         for i in c:
-            courses.append(i.title)
+            courses.append((i.title))
+        return render(request, "instructorAssignTA.html", {"courses": courses})
 
-        #Look for sections in other table
-        s = list(Section.objects.all())
-        sections = list()
-        for j in s:
-            sections.append((j.title, j.ta, j.course, j.courseTitle))
-
-        return render(request, "assignTA.html",{"courses": courses,"sections":sections})
     def post(self, request):
-        return render(request, "assignTA.html",
-                      {"message":assignTA(request.POST['email'], request.POST['course'], request.POST['section'])})
+        instructor = Employee.objects.get(EMP_EMAIL=request.session["email"])
+        c = list(Course.objects.filter(instructor=instructor))
+        courses = list()
+        for i in c:
+            courses.append((i.title))
+        return render(request, "instructorAssignTA.html",
+                      {"message": assignTA(request.POST['email'], request.POST['course'], request.POST['section'],
+                                           request.session["email"]), "courses": courses})
+
+
+class AssignEmployee(View):
+    def get(self, request):
+        return render(request, "assignTA.html", {"courses": courseList()})
+
+    def post(self, request):
+        return render(request, "assignTA.html", {"message": assignEmployeeToSection(request.POST["email"],
+                                                                             request.POST["section"],
+                                                                             request.POST["course"]),
+                                                 "courses": courseList()})
+
+
+class ViewAllCourses(View):
+    def get(self, request):
+        return render(request, "ViewAllCourses.html", {"courses":courseList(),"currentCourse":"Select a Course"})
+    def post(self, request):
+        course = request.POST["currentCourse"]
+        instructor = ""
+        allTA = []
+        allSections = []
+        try:
+            instructor = makeInstructor(course)
+            allTA = taForCourse(course)
+            allSections = sectionsForCourse(course)
+        except:
+            course = "Please Enter Valid Course"
+
+        return render(request, "ViewAllCourses.html", {"courses": courseList(),
+                                                       "currentCourse": course,
+                                                       "instructor": instructor,"allTA": allTA,
+                                                       "allSections": allSections})
+
 
 class Dashboard(View):
     def get(self, request):
-        return render(request, "dashboard.html",{})
+        return render(request, "dashboard.html", {"user": request.session["type"]})
+
     def post(self, request):
-        return render(request, "dashboard.html",{})
+        return render(request, "dashboard.html", {"user": request.session["type"]})
+
 
 class Login(View):
     def get(self, request):
-        return render(request, "login.html",{})
+        request.session["type"] = "Hacker"
+        request.session.save()
+        return render(request, "login.html", {})
 
     def post(self, request):
+        request.session["type"] = "Hacker"
         noSuchUser = False
         badPassword = False
         try:
@@ -75,7 +122,9 @@ class Login(View):
             return render(request, "login.html", {"message": "Incorrect email/password"})
         else:
             request.session["email"] = m.EMP_EMAIL
+            request.session["type"] = m.EMP_ROLE
             return redirect("/dashboard/")
+
 
 class Account(View):
     def get(self, request):
@@ -84,23 +133,30 @@ class Account(View):
     def post(self, request):
         return render(request, "account.html", {})
 
+
 class AssignCourse(View):
     def get(self, request):
-        return render(request, "assignCourse.html",{})
+        return render(request, "assignCourse.html", {})
+
     def post(self, request):
-        return render(request, "assignCourse.html",{})
+        return render(request, "assignCourse.html", {})
+
 
 class Notifications(View):
     def get(self, request):
         return render(request, "notifications.html", {})
+
     def post(self, request):
         return render(request, "notifications.html", {})
+
 
 class ClassView(View):
     def get(self, request):
         return render(request, "classTemplate.html", {})
+
     def post(self, request):
         return render(request, "classTemplate.html", {})
+
 
 class CreateAccount(View):
     def get(self, request):

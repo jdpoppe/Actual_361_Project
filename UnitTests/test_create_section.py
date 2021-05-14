@@ -1,26 +1,23 @@
-import unittest
+from django.test import TestCase
 
 import os
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
-
 django.setup()
+from school_app.models import Course, Section
+from school_app.Helpers import createSection,createEmp
 
-from school_app.models import Employee, Course, Section
-from school_app.Helpers import createSection
 
-
-class TestCreateSection(unittest.TestCase):
+class TestCreateSection(TestCase):
     def setUp(self):
-        self.instructor = Employee.objects.create(EMP_EMAIL="jimgaffigan@uwm.edu", EMP_FNAME="Jim",
-                                                  EMP_LNAME="Gaffigan", EMP_ROLE="Instructor", EMP_INITIAL="T",
-                                                  EMP_PASSWORD="123")
-        self.ta = Employee.objects.create(EMP_EMAIL="bertkreischer@uwm.edu", EMP_FNAME="Bert",
-                                          EMP_LNAME="Kreischer", EMP_ROLE="TA", EMP_INITIAL="A",
-                                          EMP_PASSWORD="456")
-        self.course = Course.objects.create(title="Comedy 251", instructor=self.instructor)
-        self.section = Section.objects.create(title="Lab 801", course=self.course, ta=self.ta, courseTitle="Comedy 251")
+        self.employeeList = {"jimgaffigan@uwm.edu":["Jim","Gaffigan","Instructor","T","123"],
+                             "bertkreischer@uwm.edu":["Bert","Kreischer","TA","A","456"]}
+        self.empObj = list()
+        self.empObj = createEmp(self.employeeList, self.empObj)
+        self.course = Course(title="Comedy 251", instructor=self.empObj[0])
+        self.course.save()
+        self.section = Section(title="Lab 801", course=self.course, emp=self.empObj[1])
+        self.section.save()
 
     def test_noTitle(self):
         self.assertEqual("Section needs to have title",
@@ -48,10 +45,10 @@ class TestCreateSection(unittest.TestCase):
                          msg="Entering an employee that is not a TA for a section fails to return message "
                              "\"TA does not exist, or employee is not TA\"")
 
-    def test_sectionExists(self):
-        self.assertEqual("Section already exists", createSection("Lab 801", "bertkreischer@uwm.edu", "Comedy 251"),
-                         msg="Entering a section that already exists fails to return message, "
-                             "\"Section already exists\"")
+    def test_validInputNoTaInput(self):
+        self.assertEqual("Section successfully added",
+                         createSection("Lab 800", "", "Comedy 251"),
+                         msg="Entering a valid course and title with no Ta fails to return correct message")
 
     def test_validInput(self):
         self.assertEqual("Section successfully added",

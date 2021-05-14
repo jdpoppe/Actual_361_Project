@@ -1,25 +1,23 @@
-import unittest
+from django.test import TestCase
 
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Project.settings')
 import django
 django.setup()
-
-from school_app.models import Employee, Course
-from school_app.Helpers import createCourse
+from school_app.models import Course
+from school_app.Helpers import createCourse, createEmp
 
 
 # Create your tests here.
 
-class TestCreateCourse(unittest.TestCase):
+class TestCreateCourse(TestCase):
     def setUp(self):
-        self.instructor = Employee.objects.create(EMP_EMAIL="jimgaffigan@uwm.edu", EMP_FNAME="Jim",
-                                                  EMP_LNAME="Gaffigan", EMP_ROLE="Instructor", EMP_INITIAL="T",
-                                                  EMP_PASSWORD="123")
-        self.supervisor = Employee.objects.create(EMP_EMAIL="bertkreischer@uwm.edu", EMP_FNAME="Bert",
-                                                  EMP_LNAME="Kreischer", EMP_ROLE="Supervisor", EMP_INITIAL="A",
-                                                  EMP_PASSWORD="456")
-        self.course = Course.objects.create(title="Comedy 251", instructor=self.instructor)
+        self.employeeList = {"jimgaffigan@uwm.edu":["Jim","Gaffigan","Instructor","T","123"],
+                             "bertkreischer@uwm.edu":["Bert","Kreischer","Supervisor","A","456"]}
+        self.empObj = list()
+        self.empObj = createEmp(self.employeeList, self.empObj)
+        self.course = Course(title="Comedy 251", instructor=self.empObj[0])
+        self.course.save()
     def test_noTitle(self):
         self.assertEqual("Course must have title", createCourse("", "jimgaffigan@uwm.edu"),
                          msg="Entering a course without a title fails to return message \"Course must have title\"")
