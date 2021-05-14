@@ -57,8 +57,10 @@
          <form method="post" action="/assignInstructor/">
              {% csrf_token %}
                 <table>
+
                     <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Course Title:</td><td>
                         <select id="course" name="course">
+
                                 <option>Please Select A Course</option>
                                 {% for i in courses %}
                                     <option >{{i.0}}</option>
@@ -66,9 +68,7 @@
                         </select>
                     </td></tr>
                     <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Instructor Email:</td><td><input type="text" name="email"></td></tr>
-
                 </table>
-             <input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit">
          </form>
          <p class="font-semibold">{{ message }}</p>
     </center>

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import Employee, EmployeeType, Course, Section
+
 from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection, courseList, \
-    makeInstructor, sectionsForCourse, taForCourse, courseAndSection
-
-
+    makeInstructor, sectionsForCourse, taForCourse, courseAndSectio
+import smtplib
 # Create your views here.
 
 class CreateCourse(View):
@@ -32,6 +32,7 @@ class CreateSection(View):
 class AssignInstructor(View):
     def get(self, request):
         c = list(Course.objects.all())
+
         courses = list()
         for i in c:
             courses.append((i.title, i.instructor))
@@ -76,7 +77,6 @@ class AssignEmployee(View):
 class ViewAllCourses(View):
     def get(self, request):
         return render(request, "ViewAllCourses.html", {"courses":courseList(),"currentCourse":"Select a Course"})
-
     def post(self, request):
         course = request.POST["currentCourse"]
         instructor = ""
