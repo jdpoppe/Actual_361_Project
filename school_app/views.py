@@ -3,7 +3,7 @@ from django.views import View
 from .models import Employee, EmployeeType, Course, Section
 
 from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection, courseList, \
-    makeInstructor, sectionsForCourse, taForCourse, courseAndSectio
+    makeInstructor, sectionsForCourse, taForCourse, courseAndSection
 import smtplib
 # Create your views here.
 
@@ -190,3 +190,96 @@ class CreateAccount(View):
                 (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
         return render(request, "createAccount.html", {"entries": formattedEntries, "message": message,
                                                       "roles": EmployeeType.choices})
+
+class EditAccount(View):
+    def get(self, request):
+        allEmployee = list(Employee.objects.all())
+        formattedEntries = []
+        for i in allEmployee:
+            formattedEntries.append(
+                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))
+        return render(request, "editAccount.html", {"entries": formattedEntries, "roles": EmployeeType.choices})
+    def post(self, request):
+        valid = True
+        valid2 = False
+        message = ""
+        try:
+            m = Employee.objects.get(EMP_EMAIL=request.POST['accToEdit'])
+        except:
+            valid = False
+        if valid:
+            m.EMP_FNAME = request.POST['f_name']
+            m.EMP_INITIAL = request.POST['initial']
+            m.EMP_LNAME = request.POST['l_name']
+            m.EMP_ROLE = request.POST['role']
+            try:
+                Employee.objects.get(EMP_EMAIL=request.POST['email'])
+            except:
+                valid2 = True
+            if valid2:
+                m.EMP_EMAIL = request.POST['email']
+            else:
+                return render(request, "editAccount.html", {"message": "Email Already Exists"})
+            m.EMP_PASSWORD = request.POST['password']
+            m.save()
+            request.session['email'] = m.EMP_EMAIL
+            message = "account has been edited"
+        else:
+            message = "account does not exist"
+        allEmployee = list(Employee.objects.all())
+        formattedEntries = []
+        for i in allEmployee:
+            formattedEntries.append(
+                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))
+        return render(request, "editAccount.html", {"entries": formattedEntries, "message": message,
+                                                    "roles": EmployeeType.choices})
+
+class EditSelf(View):
+    def get(self, request):
+        return render(request, "editSelf.html")
+    def post(self, request):
+        valid = False
+        message = ""
+        m = Employee.objects.get(EMP_EMAIL=request.session['email'])
+        m.EMP_FNAME = request.POST['f_name']
+        m.EMP_INITIAL = request.POST['initial']
+        m.EMP_LNAME = request.POST['l_name']
+        try:
+            Employee.objects.get(EMP_EMAIL=request.POST['email'])
+        except:
+            valid = True
+        if valid:
+            m.EMP_EMAIL = request.POST['email']
+        else:
+            return render(request, "editSelf.html", {"message": "Email Already Exists"})
+        m.EMP_PASSWORD = request.POST['password']
+        m.save()
+        request.session['email'] = m.EMP_EMAIL
+        return render(request, "editSelf.html", {'message': "account successfully updated"})
+
+class DeleteAccount(View):
+    def get(self, request):
+        allEmployee = list(Employee.objects.all())
+        formattedEntries = []
+        for i in allEmployee:
+            formattedEntries.append(
+                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))
+        return render(request, "deleteAccount.html", {"entries": formattedEntries})
+    def post(self, request):
+        valid = True
+        message = ""
+        try:
+            m = Employee.objects.get(EMP_EMAIL=request.POST['accToDel'])
+        except:
+            valid = False
+        if valid and request.POST['accToDel'] != request.session['email']:
+            m.delete()
+            message = "account has been deleted"
+        else:
+            message = "cannot delete your own or nonexistent accounts"
+        allEmployee = list(Employee.objects.all())
+        formattedEntries = []
+        for i in allEmployee:
+            formattedEntries.append(
+                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))
+        return render(request, "deleteAccount.html", {"entries": formattedEntries, "message": message})
