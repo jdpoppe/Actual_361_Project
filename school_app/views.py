@@ -3,24 +3,25 @@ from django.views import View
 from .models import Employee, EmployeeType, Course, Section
 
 from .Helpers import createSection, createCourse, assignInstructor, assignTA, assignEmployeeToSection, courseList, \
-    makeInstructor, sectionsForCourse, taForCourse, courseAndSectio
+    makeInstructor, sectionsForCourse, taForCourse, courseAndSection, displayEmp
 import smtplib
+
+
 # Create your views here.
 
 class CreateCourse(View):
     def get(self, request):
-
-        return render(request, "createCourse.html", {"courses":courseList()})
+        return render(request, "createCourse.html", {"courses": courseList()})
 
     def post(self, request):
         message = createCourse(request.POST['courseTitle'], request.POST['instructorEmail'])
         print(message)
-        return render(request, "createCourse.html", {"message": message,"courses":courseList()})
+        return render(request, "createCourse.html", {"message": message, "courses": courseList()})
 
 
 class CreateSection(View):
     def get(self, request):
-        return render(request, "createSection.html", {"courseAndSection":courseAndSection(courseList())})
+        return render(request, "createSection.html", {"courseAndSection": courseAndSection(courseList())})
 
     def post(self, request):
         return render(request, "createSection.html",
@@ -50,7 +51,7 @@ class InstructorAssignTA(View):
         courses = list()
         for i in c:
             courses.append((i.title))
-        return render(request, "instructorAssignTA.html", {"courses": courses})
+        return render(request, "instructorAssignTA.html", {"courses": courses, "user": request.session["type"]})
 
     def post(self, request):
         instructor = Employee.objects.get(EMP_EMAIL=request.session["email"])
@@ -60,7 +61,8 @@ class InstructorAssignTA(View):
             courses.append((i.title))
         return render(request, "instructorAssignTA.html",
                       {"message": assignTA(request.POST['email'], request.POST['course'], request.POST['section'],
-                                           request.session["email"]), "courses": courses})
+                                           request.session["email"]), "courses": courses,
+                       "user": request.session["type"]})
 
 
 class AssignEmployee(View):
@@ -69,14 +71,15 @@ class AssignEmployee(View):
 
     def post(self, request):
         return render(request, "assignTA.html", {"message": assignEmployeeToSection(request.POST["email"],
-                                                                             request.POST["section"],
-                                                                             request.POST["course"]),
+                                                                                    request.POST["section"],
+                                                                                    request.POST["course"]),
                                                  "courses": courseList()})
 
 
 class ViewAllCourses(View):
     def get(self, request):
-        return render(request, "ViewAllCourses.html", {"courses":courseList(),"currentCourse":"Select a Course"})
+        return render(request, "ViewAllCourses.html", {"courses": courseList(), "currentCourse": "Select a Course"})
+
     def post(self, request):
         course = request.POST["currentCourse"]
         instructor = ""
@@ -91,7 +94,7 @@ class ViewAllCourses(View):
 
         return render(request, "ViewAllCourses.html", {"courses": courseList(),
                                                        "currentCourse": course,
-                                                       "instructor": instructor,"allTA": allTA,
+                                                       "instructor": instructor, "allTA": allTA,
                                                        "allSections": allSections})
 
 
@@ -160,13 +163,8 @@ class ClassView(View):
 
 class CreateAccount(View):
     def get(self, request):
-        m = request.session["email"]
-        allEmployee = list(Employee.objects.all())
-        formattedEntries = []
-        for i in allEmployee:
-            formattedEntries.append(
-                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
-        return render(request, "createAccount.html", {"entries": formattedEntries, "roles": EmployeeType.choices})
+        return render(request, "createAccount.html",
+                      {"entries": displayEmp(), "roles": EmployeeType.choices, "r": request.session["type"]})
 
     def post(self, request):
         m = request.session["email"]
@@ -183,10 +181,14 @@ class CreateAccount(View):
             message = "Account created"
         else:
             message = "Email is already exists"
-        allEmployee = list(Employee.objects.all())
-        formattedEntries = []
-        for i in allEmployee:
-            formattedEntries.append(
-                (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
-        return render(request, "createAccount.html", {"entries": formattedEntries, "message": message,
+        return render(request, "createAccount.html", {"entries": displayEmp(), "message": message,
+
                                                       "roles": EmployeeType.choices})
+
+
+class ViewUsers(View):
+    def get(self, request):
+        return render(request, "viewUsers.html", {"employees": displayEmp()})
+
+    def post(self, request):
+        return render(request, "viewUsers.html", {"employees": displayEmp()})

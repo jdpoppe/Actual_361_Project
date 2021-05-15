@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from school_app.views import Login, Dashboard, CreateCourse, CreateSection, AssignInstructor, InstructorAssignTA, \
-    Notifications, Account, CreateAccount, ClassView, AssignEmployee, ViewAllCourses
+    Notifications, Account, CreateAccount, ClassView, AssignEmployee, ViewAllCourses, ViewUsers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +31,6 @@ urlpatterns = [
     path('instructorAssignTA/', InstructorAssignTA.as_view()),
     path('createAccount/', CreateAccount.as_view()),
     path('class1/', ClassView.as_view()),
-    path('ViewAllCourses/', ViewAllCourses.as_view())
+    path('ViewAllCourses/', ViewAllCourses.as_view()),
+    path('viewUsers/', ViewUsers.as_view())
 ]

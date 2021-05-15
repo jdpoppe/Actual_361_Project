@@ -63,7 +63,6 @@
             <nav class="w-56 flex-none text-gray-800 tracking-widest border-r">
                 <div class="h-full flex flex-col gap-2 p-2">
                     <div class="py-2 flex flex-col gap-1">
-
                         <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createSection/">
                             <i class="fas fa-thumbtack text-sm w-8"></i>
                             <p class="font-semibold">Create Section</p>
@@ -78,7 +77,6 @@
                             <i class="fas fa-thumbtack text-sm w-8"></i>
                             <p class="font-semibold">Assign TAs to Sections</p>
                         </a>
-
                         <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard/">
                             <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
                             <p class="font-semibold">Home</p>
@@ -87,38 +85,18 @@
                     </div>
                 </div>
             </nav>
-
-
     <center>
-         <form action="/createAccount/" method="post">
-             {% csrf_token %}
-             <table>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">First Name: </td><td><input type="text" name="f_name" required></td></tr>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Middle Initial: </td><td><input type="text" name="initial"></td></tr>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Last Name: </td><td><input type="text" name="l_name" required></td></tr>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Role: </td><td><select name="role" required></select></td></tr>
-                 {% for i in roles %}
-        <option value="{{ i.0 }}">{{ i.1 }}</option>
-    {% endfor %}
-        </select></td></tr>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Email: </td><td><input type="text" name="email" required></td></tr>
-                 <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Password for the account: </td><td><input type="password" name="password" required></td></tr>
-             </table>
-
-             <input input class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" type="submit" value="create account">
-         </form>
-        <p class="font-semibold">{{ message }}</p>
     <h2>Existing accounts</h2>
 <table class="results">
     <tr>
-        <th>First Name</th>
-        <th>Middle Initial</th>
-        <th>Last Name</th>
-        <th>Role</th>
-        <th>Email</th>
+        <th>First Name  </th>
+        <th>Middle Initial  </th>
+        <th>Last Name  </th>
+        <th>Role  </th>
+        <th>Email  </th>
     </tr>
-    {% for i in entries %}
         <tr>
+            {% for i in entries %}
             <td>{{i.0}}</td>
             <td>{{i.1}}</td>
             <td>{{i.2}}</td>
@@ -126,60 +104,50 @@
             <td>{{i.4}}</td>
         </tr>
     {% endfor %}
-</table>
-
+    <form action="/createAccount/" method="post">
+             {% csrf_token %}
               <br><br><br>
               <table>
                  <tr>
                      <td><label class="font-semibold text-xs">First Name: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out" name="f_name" required></td>
                  </tr>
                  <tr>
                      <td><label class="font-semibold text-xs">Middle Initial: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out" name="initial"></td>
                  </tr>
                  <tr>
                      <td><label class="font-semibold text-xs">Last Name: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out" name="l_name" required></td>
                  </tr>
                  <tr>
-                     <td><label class="font-semibold text-xs">Role: <span class="text-gray-400" style="font-size:10px"></span></label></td>
                      <td>
-                        <div class="group inline-block" style="width: 100%">
-                          <button class="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center" style="width: 100%">
-                            <span class="pr-1 font-semibold flex-1"></span>
-                            <span>
-                              <svg class="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                              </svg>
-                            </span>
-                          </button>
-                          <ul class="bg-white border rounded-sm transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top" style="min-width: 10%">
-                            <li class="rounded-sm px-3 py-1 hover:bg-gray-100">Supervisor</li>
-                            <li class="rounded-sm px-3 py-1 hover:bg-gray-100">Instructor</li>
-                            <li class="rounded-sm px-3 py-1 hover:bg-gray-100">TA</li>
-                          </ul>
-                        </div>
+                   <tr><td class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;">Role: </td><td><select name="role" required>
+                 {% for i in roles %}
+        <option value={{ i.0 }}>{{ i.1 }}</option>
+    {% endfor %}
+        </select></td></tr>
                      </td>
                  </tr>
                  <tr>
                      <td><label class="font-semibold text-xs">Email: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out" name="email" required></td>
                  </tr>
                  <tr>
                      <td><label class="font-semibold text-xs">Password: <span class="text-gray-400" style="font-size:10px"></span></label></td>
-                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out"></td>
+                     <td><input type="text" class="appearance-none px-4 py-2 text-xs tracking-widest border border-gray-200 rounded focus:outline-none focus:ring-4 focus:ring-gray-200 focus:border-transparent bg-white transition duration-200 ease-in-out" name="password" required></td>
                  </tr>
                  <tr>
                     <td></td>
                     <td>
                         <div class="flex justify-end">
-                            <button class="bg-blue-500 hover:bg-blue-600 transition duration-200 ease-in-out rounded text-xs px-3 py-2 tracking-widest text-white font-semibold focus:outline-none">Save</button>
+                            <input input class="bg-blue-500 hover:bg-blue-600 transition duration-200 ease-in-out rounded text-xs px-3 py-2 tracking-widest text-white font-semibold focus:outline-none" type="submit" value="create account">
                         </div>
                     </td>
                  </tr>
             </table>
-
+     </form>
+    <p class="font-semibold">{{ message }}</p>
     </center>
         </section>
     </body>
