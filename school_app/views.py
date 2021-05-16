@@ -216,10 +216,17 @@ class EditAccount(View):
                 Employee.objects.get(EMP_EMAIL=request.POST['email'])
             except:
                 valid2 = True
-            if valid2:
+            if valid2 or request.POST['email'] == request.session['email']:
                 m.EMP_EMAIL = request.POST['email']
             else:
-                return render(request, "editAccount.html", {"message": "Email Already Exists"})
+                allEmployee = list(Employee.objects.all())
+                formattedEntries = []
+                for i in allEmployee:
+                    formattedEntries.append(
+                        (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))
+                return render(request, "editAccount.html", {"entries": formattedEntries,
+                                                            "message": "email already exists",
+                                                    "roles": EmployeeType.choices})
             m.EMP_PASSWORD = request.POST['password']
             m.save()
             request.session['email'] = m.EMP_EMAIL
@@ -251,7 +258,7 @@ class EditSelf(View):
         if valid:
             m.EMP_EMAIL = request.POST['email']
         else:
-            return render(request, "editSelf.html", {"message": "Email Already Exists"})
+            return render(request, "editSelf.html", {"message": "email already exists"})
         m.EMP_PASSWORD = request.POST['password']
         m.save()
         request.session['email'] = m.EMP_EMAIL
