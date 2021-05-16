@@ -58,6 +58,7 @@
                                 <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
                                 <p class="font-semibold">Home</p>
                             </a>
+                            {% if user == "Instructor" %}
                             <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createCourse">
                                 <i class="fas fa-plus-circle text-sm w-8"></i>
                                 <p class="font-semibold">Create Courses</p>
@@ -78,6 +79,7 @@
                                 <i class="fas fa-thumbtack text-sm w-8"></i>
                                 <p class="font-semibold">Delete Account</p>
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </nav>
