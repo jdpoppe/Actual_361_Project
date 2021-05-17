@@ -182,7 +182,6 @@ class CreateAccount(View):
         else:
             message = "Email is already exists"
         return render(request, "createAccount.html", {"entries": displayEmp(), "message": message,
-
                                                       "roles": EmployeeType.choices})
 
 class ViewUsers(View):
