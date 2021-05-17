@@ -11,7 +11,14 @@
         <link rel="stylesheet" href="{%  static  'svg-with-js.css'  %}">
         <link rel="stylesheet" href="{%  static  'svg-with-js.min.css'  %}">
         <link rel="stylesheet" href="{%  static  'all.css'  %}">
-        <meta name="viewport" content="width=device-width">
+          <link rel="stylesheet" href="{%  static  'all.min.css'  %}">
+          <link rel="stylesheet" href="{%  static  'fa-solid-900.ttf'  %}">
+          <link rel="stylesheet" href="{%  static  'fa-solid-900.woff'  %}">
+          <link rel="stylesheet" href="{%  static  'fa-solid-900.woff2'  %}">
+          <link rel="stylesheet" href="{%  static  'coolButton.css'  %}">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+          <meta name="viewport" content="width=device-width">
   	</head>
     <body>
         <center>
@@ -22,7 +29,7 @@
     <nav class="fixed top-0 inset-x-0 h-12 z-10 text-gray-800 tracking-widest border-b">
     	<div class="h-full bg-white flex w-full max-w-6xl mx-auto">
     		<div class="flex-none w-56 px-2 flex items-center">
-    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/classProject/dashboard.html">
+    			<a class="cursor-pointer font-bold tracking-wider text-gray-800 hover:text-gray-600 transition duration-200 ease-in-out flex items-center gap-3" href="/dashboard">
     				<span class="w-9 h-9 rounded-full flex items-center justify-center bg-yellow-200">
     					<i class="fa fa-calendar" aria-hidden="true"></i>
     				</span>
@@ -33,11 +40,11 @@
     		</div>
     		<div class="flex-none flex w-40 px-2">
     			<div class="flex-grow flex items-center justify-end gap-2">
-    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/classProject/notifications.html">
+    				<a class="w-9 h-9 cursor-pointer rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out" href="/notifications">
     					<i class="fas fa-bell text-gray-900"></i>
     				</a>
     				<span class="relative" x-data="{dropdown:false}" x-cloak>
-    					<a class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out focus:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200 border border-white" x-on:click="dropdown=!dropdown" href="/classProject/account.html">
+    					<a class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-yellow-300 transition duration-200 ease-in-out focus:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200 border border-white" x-on:click="dropdown=!dropdown" href="/account">
     						<i class="fas fa-user text-gray-900"></i>
     					</a>
     				</span>
@@ -65,25 +72,11 @@
     		<div class="h-full flex flex-col gap-2 p-2">
     			<div class="py-2 flex flex-col gap-1">
 
-                    <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/createSection/">
-    					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Create Section</p>
-    				</a>
 
-    				<a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignInstructor/">
-    					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Assign Instructors to Courses</p>
-    				</a>
-
-                    <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" href="/assignTA/">
-    					<i class="fas fa-thumbtack text-sm w-8"></i>
-    					<p class="font-semibold">Assign TAs to Sections</p>
-    				</a>
-
-                    <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard/">
-    					<i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
-    					<p class="font-semibold">Home</p>
-    				</a>
+                   <a class="flex items-center text-xs rounded tracking-widest px-4 py-2 cursor-pointer hover:bg-yellow-100 transition duration-200 ease-in-out" style="hover:yellowHover;" href="/dashboard">
+                                <i class="fa fa-home text-sm w-8" aria-hidden="true"></i>
+                                <p class="font-semibold">Home</p>
+                   </a>
 
     			</div>
     		</div>
