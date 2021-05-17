@@ -210,8 +210,3 @@ def displayEmp():
     return formattedEntries
 
 
-
-
-
-
-
