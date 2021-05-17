@@ -13,8 +13,8 @@ class ProperDashboard(TestCase):
     def setUp(self):
         self.client = Client()
         self.employeeList = {"grandma@old.com":["Dolores", "Grundhold", "Supervisor", "D", "Ih8Kids"],
-                             "idiot@baby.fart":["Bartholomew", "Grundhold", "Supervisor", "B", "GwammaSux"],
-                             "holy@god.greece":["Dichophrates", "Smith", "Supervisor", "Z", "Dance4Lyfe"]}
+                             "idiot@baby.com":["Bartholomew", "Grundhold", "Supervisor", "B", "GwammaSux"],
+                             "holy@god.com":["Dichophrates", "Smith", "Supervisor", "Z", "Dance4Lyfe"]}
         self.empObj = list()
         self.empObj = createEmp(self.employeeList, self.empObj)
         self.soupervisor = self.empObj[0]
@@ -41,9 +41,9 @@ class ProperDashboard(TestCase):
 
     def test_deleteOther(self):
         session = self.client.session
-        session['email'] = "holy@god.greece"
+        session['email'] = "holy@god.com"
         session.save()
         response = self.client.post("/deleteAccount/",
-                                    {"accToDelete": "holy@god.greece"})
+                                    {"accToDelete": "idiot@baby.com"})
         self.assertEqual(response.context["message"], "account has been deleted",
                          msg="You should be able to delete accounts in the db")

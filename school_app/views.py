@@ -280,8 +280,9 @@ class DeleteAccount(View):
         except:
             valid = False
         if valid and request.POST['accToDel'] != request.session['email']:
-            m.delete()
             message = "account has been deleted"
+            m.delete()
+
         else:
             message = "cannot delete your own or nonexistent accounts"
         allEmployee = list(Employee.objects.all())
