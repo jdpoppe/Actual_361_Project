@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from school_app.views import Login, Dashboard, CreateCourse, CreateSection, AssignInstructor, InstructorAssignTA, \
     Notifications, Account, CreateAccount, ClassView, AssignEmployee, ViewAllCourses, ViewUsers, EditAccount, \
-    DeleteAccount, EditSelf
+    DeleteAccount, EditSelf, ViewUsersSupervisor
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,4 +37,5 @@ urlpatterns = [
     path('editAccount/', EditAccount.as_view()),
     path('deleteAccount/', DeleteAccount.as_view()),
     path('editSelf/', EditSelf.as_view()),
+    path('viewUsersSupervisor/', ViewUsersSupervisor.as_view())
 ]

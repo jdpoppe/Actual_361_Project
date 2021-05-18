@@ -295,3 +295,9 @@ class DeleteAccount(View):
                 (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))
         return render(request, "deleteAccount.html", {"entries": formattedEntries, "message": message})
 
+class ViewUsersSupervisor(View):
+    def get(self, request):
+        return render(request, "viewUsersSupervisor.html", {"employees": displayEmp()})
+
+    def post(self, request):
+        return render(request, "viewUsersSupervisor.html", {"employees": displayEmp()})

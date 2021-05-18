@@ -210,7 +210,7 @@ def displayEmp():
     formattedEntries = []
     for i in allEmployee:
         formattedEntries.append(
-            (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
+            (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL, i.EMP_PASSWORD))  # i.0, i.1, i.2, i.3, i.4
     return formattedEntries
 
 
