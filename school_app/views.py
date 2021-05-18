@@ -241,7 +241,7 @@ class EditAccount(View):
         for i in allEmployee:
             formattedEntries.append(
                 (i.EMP_FNAME, i.EMP_INITIAL, i.EMP_LNAME, i.EMP_ROLE, i.EMP_EMAIL))  # i.0, i.1, i.2, i.3, i.4
-        return render(request, "createAccount.html", {"entries": formattedEntries, "message": message,
+        return render(request, "editAccount.html", {"entries": formattedEntries, "message": message,
                                                       "roles": EmployeeType.choices})
 
 class EditSelf(View):
