@@ -34,16 +34,16 @@ class TestCreateSection(TestCase):
                              "\"Course does not exists\"")
 
     def test_taDNE(self):
-        self.assertEqual("TA does not exist, or employee is not TA",
+        self.assertEqual("Employee does not exist, or employee is a supervisor",
                          createSection("Lab 802", "tomsegurra@uwm.edu", "Comedy 251"),
                          msg="Entering a TA that does not exist fails to return message "
-                             "\"TA does not exist, or employee is not TA\"")
+                             "\"Employee does not exist, or employee is supervisor\"")
 
     def test_employeeNotTA(self):
-        self.assertEqual("TA does not exist, or employee is not TA",
-                         createSection("Lab 802", "jimgaffigan@uwm.edu", "Comedy 251"),
+        self.assertEqual("Employee does not exist, or employee is a supervisor",
+                         createSection("Lab 802", "gaffigan@uwm.edu", "Comedy 251"),
                          msg="Entering an employee that is not a TA for a section fails to return message "
-                             "\"TA does not exist, or employee is not TA\"")
+                             "\"Employee does not exist, or employee is supervisor\"")
 
     def test_validInputNoTaInput(self):
         self.assertEqual("Section successfully added",

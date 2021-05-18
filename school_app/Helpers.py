@@ -15,15 +15,17 @@ def createCourse(title, email):
             return "Instructor does not exist, or employee is not an Instructor"
         else:
             instructor = entries[0]
-    Course.objects.create(title=title, instructor=instructor)
+            Course.objects.create(title=title, instructor=instructor)
+    Course.objects.create(title=title)
     return "Course Successfully Created"
 
 createSectionMessage = {0:"Section needs to have title",
                         1:"Section needs to have a course",
                         2:"Course does not exist",
-                        3:"TA does not exist, or employee is not TA",
+                        3:"Employee does not exist, or employee is a supervisor",
                         4:"Section already exists",
-                        5:"Section successfully added"}
+                        5:"Section successfully added",
+                        6:"Employee cannot be supervisor"}
 def createSection(title, ta, course):
     x = 0
     checkEmpty = [title,course]
@@ -34,7 +36,7 @@ def createSection(title, ta, course):
     try:
         courseObj = Course.objects.get(title=course)
         x = x+1
-        taObj = Employee.objects.get(EMP_EMAIL=ta, EMP_ROLE="TA")
+        taObj = Employee.objects.get(EMP_EMAIL=ta)#, EMP_ROLE="TA")
     except:
         if (x == 3 and ta != "")|(x == 2):
             return createSectionMessage[x]
@@ -46,6 +48,8 @@ def createSection(title, ta, course):
     x = x+1
     if taObj == "":
         Section.objects.create(title=title, course=courseObj)
+    elif taObj.EMP_ROLE == "Supervisor":
+        return createSectionMessage[6]
     else:
         Section.objects.create(title=title, emp=taObj, course=courseObj)
     return createSectionMessage[x]
